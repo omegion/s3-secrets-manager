@@ -1,31 +1,31 @@
 package secret
 
 import (
-	"github.com/omegion/s3-secret-manager/internal/prompt"
-	"github.com/omegion/s3-secret-manager/internal/s3"
-	"github.com/omegion/s3-secret-manager/pkg/secret"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
 	"github.com/omegion/s3-secret-manager/internal/client"
+	"github.com/omegion/s3-secret-manager/internal/prompt"
+	"github.com/omegion/s3-secret-manager/pkg/secret"
 )
 
 // Delete deletes the secret from S3.
 func Delete() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "delete",
-		Short:   "Adds two numbers",
-		Long:    "Adds two numbers",
-		Example: "  add --num1 1 --num2 2",
-		RunE:    client.With(deleteSecretE),
+		Use:   "delete",
+		Short: "Delete secret.",
+		Long:  "Delete secret from S3 with path.",
+		RunE:  client.With(deleteSecretE),
 	}
 
 	cmd.Flags().String("path", "", "Path of the secret")
+
 	if err := cmd.MarkFlagRequired("path"); err != nil {
 		log.Fatalf("Lethal damage: %s\n\n", err)
 	}
 
 	cmd.Flags().String("bucket", "", "S3 bucket name")
+
 	if err := cmd.MarkFlagRequired("bucket"); err != nil {
 		log.Fatalf("Lethal damage: %s\n\n", err)
 	}
@@ -33,7 +33,7 @@ func Delete() *cobra.Command {
 	return cmd
 }
 
-func deleteSecretE(c client.Interface, cmd *cobra.Command, args []string) error {
+func deleteSecretE(client client.Interface, cmd *cobra.Command, args []string) error {
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
 	interactive, _ := cmd.Flags().GetBool("interactive")
@@ -43,21 +43,20 @@ func deleteSecretE(c client.Interface, cmd *cobra.Command, args []string) error 
 		Path:   path,
 	}
 
-	api, err := s3.NewAPI()
+	api, err := client.GetS3API()
 	if err != nil {
 		return err
 	}
 
-	c.SetS3API(api)
-
 	if interactive {
 		_, err = prompt.NewPrompt(prompt.Options{}).DeletionConfirm()
 		if err != nil {
+			//nolint:nilerr // it's okay to return nil.
 			return nil
 		}
 	}
 
-	err = c.DeleteSecret(scrt)
+	err = client.DeleteSecret(api, scrt)
 	if err != nil {
 		return err
 	}

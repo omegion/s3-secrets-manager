@@ -2,12 +2,12 @@ package secret
 
 import "fmt"
 
-// NotFound occurs when no secret value found in a path.
-type NotFound struct {
+// NotFoundError occurs when no secret value found in a path.
+type NotFoundError struct {
 	Key    string
 	Secret *Secret
 }
 
-func (e NotFound) Error() string {
+func (e NotFoundError) Error() string {
 	return fmt.Sprintf("no secret found for %s in path %s", e.Key, e.Secret.Path)
 }

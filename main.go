@@ -1,12 +1,13 @@
 package main
 
 import (
-	cmd2 "github.com/omegion/cobra-commander"
-	"github.com/omegion/s3-secret-manager/cmd/secret"
-	"github.com/spf13/cobra"
 	"os"
 
+	cmd2 "github.com/omegion/cobra-commander"
+	"github.com/spf13/cobra"
+
 	"github.com/omegion/s3-secret-manager/cmd"
+	"github.com/omegion/s3-secret-manager/cmd/secret"
 )
 
 func main() {

@@ -1,7 +1,6 @@
 package secret
 
 import (
-	"github.com/omegion/s3-secret-manager/pkg/secret"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -9,11 +8,14 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/omegion/s3-secret-manager/internal/client/mocks"
+	mocks2 "github.com/omegion/s3-secret-manager/internal/s3/mocks"
+	"github.com/omegion/s3-secret-manager/pkg/secret"
 )
 
 func TestSet(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	c := mocks.NewMockInterface(ctrl)
+	clientMock := mocks.NewMockInterface(ctrl)
+	api := mocks2.NewMockAPIInterface(ctrl)
 
 	expectedSecretName := "test"
 	expectedSecretValue := "TESTSECRET"
@@ -25,10 +27,8 @@ func TestSet(t *testing.T) {
 		Value:  map[string]string{"test": "TESTSECRET"},
 	}
 
-	api := APIMock{}
-
-	c.EXPECT().GetS3API().Return(api, nil).Times(1)
-	c.EXPECT().SetSecret(api, expectedSecret).Return(nil).Times(1)
+	clientMock.EXPECT().GetS3API().Return(api, nil).Times(1)
+	clientMock.EXPECT().SetSecret(api, expectedSecret).Return(nil).Times(1)
 
 	cmd := &cobra.Command{}
 	cmd.Flags().String("name", expectedSecretName, "")
@@ -36,7 +36,7 @@ func TestSet(t *testing.T) {
 	cmd.Flags().String("bucket", expectedBucket, "")
 	cmd.Flags().String("path", expectedPath, "")
 
-	err := setSecretE(c, cmd, []string{})
+	err := setSecretE(clientMock, cmd, []string{})
 
 	assert.NoError(t, err)
 }

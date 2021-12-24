@@ -4,11 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"io/ioutil"
+
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
+	log "github.com/sirupsen/logrus"
+
 	"github.com/omegion/s3-secret-manager/internal/s3"
 	"github.com/omegion/s3-secret-manager/pkg/secret"
-	log "github.com/sirupsen/logrus"
-	"io/ioutil"
 )
 
 // SecretController is a struct for arithmetic operations.
@@ -50,6 +52,7 @@ func (c SecretController) Get(secret *secret.Secret) error {
 			if changedValue, ok := secret.Value[k]; ok {
 				v = changedValue
 			}
+
 			secret.Value[k] = v
 		}
 	} else {

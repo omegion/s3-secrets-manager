@@ -36,17 +36,17 @@ func (m *MockInterface) EXPECT() *MockInterfaceMockRecorder {
 }
 
 // DeleteSecret mocks base method.
-func (m *MockInterface) DeleteSecret(arg0 *secret.Secret) error {
+func (m *MockInterface) DeleteSecret(arg0 s3.APIInterface, arg1 *secret.Secret) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteSecret", arg0)
+	ret := m.ctrl.Call(m, "DeleteSecret", arg0, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteSecret indicates an expected call of DeleteSecret.
-func (mr *MockInterfaceMockRecorder) DeleteSecret(arg0 interface{}) *gomock.Call {
+func (mr *MockInterfaceMockRecorder) DeleteSecret(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteSecret", reflect.TypeOf((*MockInterface)(nil).DeleteSecret), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteSecret", reflect.TypeOf((*MockInterface)(nil).DeleteSecret), arg0, arg1)
 }
 
 // GetS3API mocks base method.
@@ -76,18 +76,6 @@ func (m *MockInterface) GetSecret(arg0 s3.APIInterface, arg1 *secret.Secret) err
 func (mr *MockInterfaceMockRecorder) GetSecret(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecret", reflect.TypeOf((*MockInterface)(nil).GetSecret), arg0, arg1)
-}
-
-// SetS3API mocks base method.
-func (m *MockInterface) SetS3API(arg0 s3.APIInterface) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetS3API", arg0)
-}
-
-// SetS3API indicates an expected call of SetS3API.
-func (mr *MockInterfaceMockRecorder) SetS3API(arg0 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetS3API", reflect.TypeOf((*MockInterface)(nil).SetS3API), arg0)
 }
 
 // SetSecret mocks base method.

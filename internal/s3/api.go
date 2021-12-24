@@ -2,14 +2,15 @@ package s3
 
 import (
 	"context"
+	"io"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"io"
 )
 
 //nolint:lll // go generate is ugly.
-//go:generate mockgen -destination=mocks/api_mock.go -package=mocks github.com/omegion/vault-unseal/internal/vault APIInterface
+//go:generate mockgen -destination=mocks/api_mock.go -package=mocks github.com/omegion/s3-secret-manager/internal/s3 APIInterface
 // APIInterface is an interface for API.
 type APIInterface interface {
 	GetObject(options *GetObjectOptions) (io.ReadCloser, error)
@@ -23,6 +24,7 @@ type API struct {
 	Client *s3.Client
 }
 
+// PutObjectOptions is options for API call.
 type PutObjectOptions struct {
 	Bucket,
 	Path string
@@ -30,16 +32,19 @@ type PutObjectOptions struct {
 	EncodedTags string
 }
 
+// GetObjectOptions is options for API call.
 type GetObjectOptions struct {
 	Bucket,
 	Path string
 }
 
+// DeleteObjectOptions is options for API call.
 type DeleteObjectOptions struct {
 	Bucket,
 	Path string
 }
 
+// NewAPI inits new API.
 func NewAPI() (APIInterface, error) {
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
@@ -54,6 +59,7 @@ func NewAPI() (APIInterface, error) {
 	}, nil
 }
 
+// GetObject gets object from S3.
 func (a API) GetObject(options *GetObjectOptions) (io.ReadCloser, error) {
 	resp, err := a.Client.GetObject(context.TODO(), &s3.GetObjectInput{
 		Bucket: aws.String(options.Bucket),
@@ -66,6 +72,7 @@ func (a API) GetObject(options *GetObjectOptions) (io.ReadCloser, error) {
 	return resp.Body, nil
 }
 
+// PutObject puts object to S3.
 func (a API) PutObject(options *PutObjectOptions) (*s3.PutObjectOutput, error) {
 	return a.Client.PutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket:  aws.String(options.Bucket),
@@ -75,6 +82,7 @@ func (a API) PutObject(options *PutObjectOptions) (*s3.PutObjectOutput, error) {
 	})
 }
 
+// DeleteObject deletes object from S3.
 func (a API) DeleteObject(options *DeleteObjectOptions) (*s3.DeleteObjectOutput, error) {
 	return a.Client.DeleteObject(context.TODO(), &s3.DeleteObjectInput{
 		Bucket: aws.String(options.Bucket),
