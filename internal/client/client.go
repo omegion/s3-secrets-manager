@@ -1,8 +1,9 @@
 package client
 
 import (
-	"github.com/omegion/s3-secret-manager/internal/s3"
 	"github.com/spf13/cobra"
+
+	"github.com/omegion/s3-secret-manager/internal/s3"
 )
 
 //nolint:lll // go generate is ugly.
