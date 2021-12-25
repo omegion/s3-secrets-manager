@@ -1,7 +1,6 @@
 package secret
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -18,7 +17,6 @@ func TestGet(t *testing.T) {
 	clientMock := mocks.NewMockInterface(ctrl)
 	api := mocks2.NewMockAPIInterface(ctrl)
 
-	expectedSecretName := "test"
 	expectedBucket := "test-bucket"
 	expectedPath := "test/foo/boo"
 	expectedSecret := &secret.Secret{
@@ -30,11 +28,9 @@ func TestGet(t *testing.T) {
 	clientMock.EXPECT().GetSecret(api, expectedSecret).Return(nil).Times(1)
 
 	cmd := &cobra.Command{}
-	cmd.Flags().String("name", expectedSecretName, "")
 	cmd.Flags().String("bucket", expectedBucket, "")
 	cmd.Flags().String("path", expectedPath, "")
 
 	err := getSecretE(clientMock, cmd, []string{})
-
-	assert.EqualError(t, err, fmt.Sprintf("no secret found for %s in path %s", expectedSecretName, expectedPath))
+	assert.NoError(t, err)
 }

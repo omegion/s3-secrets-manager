@@ -8,6 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	controller "github.com/omegion/s3-secret-manager/internal/controller"
 	s3 "github.com/omegion/s3-secret-manager/internal/s3"
 	secret "github.com/omegion/s3-secret-manager/pkg/secret"
 )
@@ -76,6 +77,21 @@ func (m *MockInterface) GetSecret(arg0 s3.APIInterface, arg1 *secret.Secret) err
 func (mr *MockInterfaceMockRecorder) GetSecret(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecret", reflect.TypeOf((*MockInterface)(nil).GetSecret), arg0, arg1)
+}
+
+// ListSecret mocks base method.
+func (m *MockInterface) ListSecret(arg0 s3.APIInterface, arg1 *controller.ListOptions) (*secret.Secrets, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListSecret", arg0, arg1)
+	ret0, _ := ret[0].(*secret.Secrets)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListSecret indicates an expected call of ListSecret.
+func (mr *MockInterfaceMockRecorder) ListSecret(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSecret", reflect.TypeOf((*MockInterface)(nil).ListSecret), arg0, arg1)
 }
 
 // SetSecret mocks base method.

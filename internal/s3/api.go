@@ -14,6 +14,7 @@ import (
 // APIInterface is an interface for API.
 type APIInterface interface {
 	GetObject(options *GetObjectOptions) (io.ReadCloser, error)
+	ListObjects(options *ListObjectOptions) (*s3.ListObjectsV2Output, error)
 	PutObject(options *PutObjectOptions) (*s3.PutObjectOutput, error)
 	DeleteObject(options *DeleteObjectOptions) (*s3.DeleteObjectOutput, error)
 }
@@ -34,6 +35,12 @@ type PutObjectOptions struct {
 
 // GetObjectOptions is options for API call.
 type GetObjectOptions struct {
+	Bucket,
+	Path string
+}
+
+// ListObjectOptions is options for API call.
+type ListObjectOptions struct {
 	Bucket,
 	Path string
 }
@@ -70,6 +77,19 @@ func (a API) GetObject(options *GetObjectOptions) (io.ReadCloser, error) {
 	}
 
 	return resp.Body, nil
+}
+
+// ListObjects gets object from S3.
+func (a API) ListObjects(options *ListObjectOptions) (*s3.ListObjectsV2Output, error) {
+	resp, err := a.Client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket: aws.String(options.Bucket),
+		Prefix: aws.String(options.Path),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }
 
 // PutObject puts object to S3.

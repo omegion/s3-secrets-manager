@@ -66,6 +66,21 @@ func (mr *MockAPIInterfaceMockRecorder) GetObject(arg0 interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockAPIInterface)(nil).GetObject), arg0)
 }
 
+// ListObjects mocks base method.
+func (m *MockAPIInterface) ListObjects(arg0 *s30.ListObjectOptions) (*s3.ListObjectsV2Output, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListObjects", arg0)
+	ret0, _ := ret[0].(*s3.ListObjectsV2Output)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListObjects indicates an expected call of ListObjects.
+func (mr *MockAPIInterfaceMockRecorder) ListObjects(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListObjects", reflect.TypeOf((*MockAPIInterface)(nil).ListObjects), arg0)
+}
+
 // PutObject mocks base method.
 func (m *MockAPIInterface) PutObject(arg0 *s30.PutObjectOptions) (*s3.PutObjectOutput, error) {
 	m.ctrl.T.Helper()

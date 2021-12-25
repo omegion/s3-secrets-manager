@@ -21,7 +21,7 @@ lint:
 	go vet ./...
 	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.43.0
 	@golangci-lint --version
-	golangci-lint run --fix
+	golangci-lint run
 	go get -u golang.org/x/lint/golint
 	golint -set_exit_status ./...
 

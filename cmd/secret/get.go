@@ -21,12 +21,7 @@ func Get() *cobra.Command {
 		RunE:  client.With(getSecretE),
 	}
 
-	cmd.Flags().String("name", "", "Name of the secret")
-
-	if err := cmd.MarkFlagRequired("name"); err != nil {
-		log.Fatalf("Lethal damage: %s\n\n", err)
-	}
-
+	cmd.Flags().String("field", "", "Name of the field in the secret")
 	cmd.Flags().String("path", "", "Path of the secret")
 
 	if err := cmd.MarkFlagRequired("path"); err != nil {
@@ -43,7 +38,7 @@ func Get() *cobra.Command {
 }
 
 func getSecretE(client client.Interface, cmd *cobra.Command, args []string) error {
-	name, _ := cmd.Flags().GetString("name")
+	field, _ := cmd.Flags().GetString("field")
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
 
@@ -61,8 +56,8 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	if err != nil {
 		var nsk *types.NoSuchKey
 		if errors.As(err, &nsk) {
-			return secret.NotFoundError{
-				Key:    name,
+			return secret.FieldNotFoundError{
+				Field:  field,
 				Secret: scrt,
 			}
 		}
@@ -70,13 +65,22 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 		return err
 	}
 
-	val, err := scrt.GetValue(name)
-	if err != nil {
-		return err
-	}
+	if field != "" {
+		var val string
+		val, err = scrt.GetValue(field)
 
-	//nolint:forbidigo // fmt is okay.
-	fmt.Println(val)
+		if err != nil {
+			return err
+		}
+
+		//nolint:forbidigo // fmt is okay.
+		fmt.Println(val)
+	} else {
+		err = scrt.Print()
+		if err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
