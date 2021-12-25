@@ -7,6 +7,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
+	s32 "github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
@@ -51,6 +54,43 @@ func TestGet(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, expectedSecret.Value, expectedValue)
+}
+
+func TestList(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	api := mocks.NewMockAPIInterface(ctrl)
+
+	expectedSecrets := []secret.Secret{
+		{
+			Bucket: expectedBucket,
+			Path:   expectedPath,
+		},
+	}
+
+	options := &s3.ListObjectOptions{
+		Path: expectedPath,
+	}
+
+	output := &s32.ListObjectsV2Output{
+		Contents: []types.Object{
+			{
+				Key: aws.String(expectedPath),
+			},
+		},
+	}
+
+	api.EXPECT().ListObjects(options).Return(output, nil).Times(1)
+
+	controller := NewSecretController(api)
+	secrets, err := controller.List(&ListOptions{
+		Path: expectedPath,
+	})
+
+	for k, v := range secrets.Items {
+		assert.Equal(t, expectedSecrets[k].Path, v.Path)
+	}
+
+	assert.NoError(t, err)
 }
 
 func TestSet(t *testing.T) {

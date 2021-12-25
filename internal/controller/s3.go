@@ -18,6 +18,12 @@ type SecretController struct {
 	s3API s3.APIInterface
 }
 
+// ListOptions is option for list secrets.
+type ListOptions struct {
+	Bucket,
+	Path string
+}
+
 // NewSecretController is a factory for SecretController.
 func NewSecretController(api s3.APIInterface) *SecretController {
 	return &SecretController{api}
@@ -60,6 +66,29 @@ func (c SecretController) Get(secret *secret.Secret) error {
 	}
 
 	return nil
+}
+
+// List lists secrets in given path from S3.
+func (c SecretController) List(options *ListOptions) (*secret.Secrets, error) {
+	resp, err := c.s3API.ListObjects(&s3.ListObjectOptions{
+		Bucket: options.Bucket,
+		Path:   options.Path,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	secrets := &secret.Secrets{}
+
+	for _, item := range resp.Contents {
+		secrets.Items = append(secrets.Items, &secret.Secret{
+			Bucket:       options.Bucket,
+			Path:         *item.Key,
+			LastModified: item.LastModified,
+		})
+	}
+
+	return secrets, nil
 }
 
 // Set sets a secret to S3 bucket.

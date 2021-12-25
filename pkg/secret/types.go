@@ -2,16 +2,30 @@ package secret
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/url"
+	"os"
+	"text/tabwriter"
+	"time"
+)
+
+const (
+	writerPadding = 2
 )
 
 // Secret is a struct for secret management.
 type Secret struct {
-	Bucket      string
-	Description string
-	Path        string
-	Value       map[string]string
-	Tags        map[string]string
+	Bucket       string
+	Description  string
+	Path         string
+	LastModified *time.Time
+	Value        map[string]string
+	Tags         map[string]string
+}
+
+// Secrets is collection of Secret.
+type Secrets struct {
+	Items []*Secret
 }
 
 // EncodeTags encodes tags for S3 API.
@@ -53,4 +67,40 @@ func (s Secret) GetValue(key string) (string, error) {
 		Key:    key,
 		Secret: &s,
 	}
+}
+
+// Print prints Secret details.
+func (s Secret) Print() error {
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, writerPadding, ' ', 0)
+	fmt.Fprintf(w, "Key\tValue\n")
+	fmt.Fprintf(w, "----\t----\n")
+
+	for key, value := range s.Value {
+		fmt.Fprintf(w, fmt.Sprintf("%s\t%s\n", key, value))
+	}
+
+	err := w.Flush()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Print prints Secrets details.
+func (s Secrets) Print() error {
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, writerPadding, ' ', 0)
+	fmt.Fprintf(w, "Secret\tLast Modified\n")
+	fmt.Fprintf(w, "----\t----\n")
+
+	for _, scrt := range s.Items {
+		fmt.Fprintln(w, fmt.Sprintf("%s\t%s\n", scrt.Path, scrt.LastModified))
+	}
+
+	err := w.Flush()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
