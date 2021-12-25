@@ -12,9 +12,9 @@ import (
 
 func main() {
 	root := &cobra.Command{
-		Use:          "go-cli",
-		Short:        "Go CLI application template",
-		Long:         "Go CLI application template for Go projects.",
+		Use:          "s3sm",
+		Short:        "S3 Secrets Management.",
+		Long:         "S3 Secrets Management for AWS S3.",
 		SilenceUsage: true,
 	}
 
