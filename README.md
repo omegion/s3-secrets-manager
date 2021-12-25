@@ -1,5 +1,5 @@
 <h1 align="center">
-GO CLI Application Template
+Cheapest Secure Secret Management on AWS S3.
 </h1>
 
 <p align="center">
@@ -17,37 +17,42 @@ GO CLI Application Template
 </p>
 
 ```shell
-Go CLI application template for Go projects.
+S3 Secrets Management for AWS S3.
 
 Usage:
-  go-cli [command]
+  s3sm [command]
 
 Available Commands:
+  completion  generate the autocompletion script for the specified shell
   help        Help about any command
+  secret      Adds two numbers
   version     Print the version/build number
 
 Flags:
-  -h, --help   help for go-cli
+  -h, --help               help for s3sm
+      --interactive        Set the interactivity (default true)
+      --logFormat string   Set the logging format. One of: text|json (default "text") (default "text")
+      --logLevel string    Set the logging level. One of: debug|info|warn|error (default "info")
 
-Use "go-cli [command] --help" for more information about a command.
+Use "s3sm [command] --help" for more information about a command.
 ```
 
 ## Requirements
 
-* Req 1
-* Req 2
+* AWS CLI
 
 ## What does it do?
 
-A template for Go CLI application.
+S3 Secrets Management CLI tool allows you to manage your secrets on S3 in cheaper way.
 
 ## How to use it
 
-* how 1
-* how 2
+* Set up your AWS account and bucket where your secrets will live.
+* Use `s3sm` tool to set/get your secret.
 
 ## Improvements to be made
 
 * 100% test coverage.
+* Kubernetes Operator for sync.
 * Better covering for other features.
 

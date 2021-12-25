@@ -11,7 +11,7 @@ TARGETARCH		   = "amd64"
 
 .PHONY: build
 build:
-	CGO_ENABLED=0 GOOS=$(TARGETOS) GOARCH=$(TARGETARCH) go build $(LDFLAGS) -a -installsuffix cgo -o dist/go-cli main.go
+	CGO_ENABLED=0 GOOS=$(TARGETOS) GOARCH=$(TARGETARCH) go build $(LDFLAGS) -a -installsuffix cgo -o dist/s3sm main.go
 
 .PHONY: lint
 lint:
@@ -41,11 +41,11 @@ cut-tag:
 .PHONY: release
 release: build
 	@echo "Releasing $(GIT_VERSION)"
-	docker build -t go-cli .
-	docker tag go-cli:latest omegion/go-cli:$(GIT_VERSION)
-	docker push omegion/go-cli:$(GIT_VERSION)
+	docker build -t s3sm .
+	docker tag s3sm:latest omegion/s3sm:$(GIT_VERSION)
+	docker push omegion/s3sm:$(GIT_VERSION)
 
 .PHONY: docker-image
 docker-image:
 	@echo "Building Docker Image"
-	docker buildx build -t go-cli-template --platform linux/amd64,linux/arm64 . --output=type=docker
+	docker buildx build -t s3sm-template --platform linux/amd64,linux/arm64 . --output=type=docker
