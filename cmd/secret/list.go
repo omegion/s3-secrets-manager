@@ -1,10 +1,11 @@
 package secret
 
 import (
-	"github.com/omegion/s3-secret-manager/internal/client"
-	"github.com/omegion/s3-secret-manager/internal/controller"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+
+	"github.com/omegion/s3-secret-manager/internal/client"
+	"github.com/omegion/s3-secret-manager/internal/controller"
 )
 
 // List gets secret from S3.

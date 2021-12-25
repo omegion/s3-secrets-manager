@@ -71,36 +71,30 @@ func (s Secret) GetValue(key string) (string, error) {
 
 // Print prints Secret details.
 func (s Secret) Print() error {
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, writerPadding, ' ', 0)
-	fmt.Fprintf(w, "Key\tValue\n")
-	fmt.Fprintf(w, "----\t----\n")
+	writer := tabwriter.NewWriter(os.Stdout, 0, 0, writerPadding, ' ', 0)
+	fmt.Fprintf(writer, "Key\tValue\n")
+	fmt.Fprintf(writer, "----\t----\n")
 
 	for key, value := range s.Value {
-		fmt.Fprintf(w, fmt.Sprintf("%s\t%s\n", key, value))
+		fmt.Fprintf(writer, "%s\t%s\n", key, value)
 	}
 
-	err := w.Flush()
-	if err != nil {
-		return err
-	}
+	writer.Flush()
 
 	return nil
 }
 
 // Print prints Secrets details.
 func (s Secrets) Print() error {
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, writerPadding, ' ', 0)
-	fmt.Fprintf(w, "Secret\tLast Modified\n")
-	fmt.Fprintf(w, "----\t----\n")
+	writer := tabwriter.NewWriter(os.Stdout, 0, 0, writerPadding, ' ', 0)
+	fmt.Fprintf(writer, "Secret\tLast Modified\n")
+	fmt.Fprintf(writer, "----\t----\n")
 
 	for _, scrt := range s.Items {
-		fmt.Fprintln(w, fmt.Sprintf("%s\t%s\n", scrt.Path, scrt.LastModified))
+		fmt.Fprintf(writer, "%s\t%s\n", scrt.Path, scrt.LastModified)
 	}
 
-	err := w.Flush()
-	if err != nil {
-		return err
-	}
+	writer.Flush()
 
 	return nil
 }

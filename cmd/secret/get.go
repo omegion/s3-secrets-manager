@@ -66,7 +66,9 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	}
 
 	if field != "" {
-		val, err := scrt.GetValue(field)
+		var val string
+		val, err = scrt.GetValue(field)
+
 		if err != nil {
 			return err
 		}
