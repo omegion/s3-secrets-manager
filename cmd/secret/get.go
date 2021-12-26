@@ -22,6 +22,7 @@ func Get() *cobra.Command {
 	}
 
 	cmd.Flags().String("field", "", "Name of the field in the secret")
+	cmd.Flags().String("version-id", "", "Version ID to get specific version of the secret")
 	cmd.Flags().String("path", "", "Path of the secret")
 
 	if err := cmd.MarkFlagRequired("path"); err != nil {
@@ -35,10 +36,15 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	field, _ := cmd.Flags().GetString("field")
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
+	versionID, _ := cmd.Flags().GetString("version-id")
 
 	scrt := &secret.Secret{
 		Bucket: bucket,
 		Path:   path,
+	}
+
+	if versionID != "" {
+		scrt.VersionID = &versionID
 	}
 
 	api, err := client.GetS3API()

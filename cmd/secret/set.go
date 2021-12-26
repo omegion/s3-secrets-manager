@@ -66,5 +66,10 @@ func setSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 		return err
 	}
 
+	err = scrt.Print()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

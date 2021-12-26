@@ -7,18 +7,16 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 
+	mocks2 "github.com/omegion/s3-secret-manager/internal/api/mocks"
 	"github.com/omegion/s3-secret-manager/internal/client/mocks"
-	mocks2 "github.com/omegion/s3-secret-manager/internal/s3/mocks"
 	"github.com/omegion/s3-secret-manager/pkg/secret"
 )
 
 func TestGet(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	clientMock := mocks.NewMockInterface(ctrl)
-	api := mocks2.NewMockAPIInterface(ctrl)
+	api := mocks2.NewMockInterface(ctrl)
 
-	expectedBucket := "test-bucket"
-	expectedPath := "test/foo/boo"
 	expectedSecret := &secret.Secret{
 		Bucket: expectedBucket,
 		Path:   expectedPath,

@@ -1,4 +1,4 @@
-package s3
+package api
 
 import (
 	"context"
@@ -10,10 +10,11 @@ import (
 )
 
 //nolint:lll // go generate is ugly.
-//go:generate mockgen -destination=mocks/api_mock.go -package=mocks github.com/omegion/s3-secret-manager/internal/s3 APIInterface
-// APIInterface is an interface for API.
-type APIInterface interface {
-	GetObject(options *GetObjectOptions) (io.ReadCloser, error)
+//go:generate mockgen -destination=mocks/s3_mock.go -package=mocks github.com/omegion/s3-secret-manager/internal/api Interface
+// Interface is an interface for API.
+type Interface interface {
+	GetObject(options *GetObjectOptions) (*s3.GetObjectOutput, error)
+	ListObjectVersions(options *ListObjectVersionsOptions) (*s3.ListObjectVersionsOutput, error)
 	ListObjects(options *ListObjectOptions) (*s3.ListObjectsV2Output, error)
 	PutObject(options *PutObjectOptions) (*s3.PutObjectOutput, error)
 	DeleteObject(options *DeleteObjectOptions) (*s3.DeleteObjectOutput, error)
@@ -37,6 +38,13 @@ type PutObjectOptions struct {
 type GetObjectOptions struct {
 	Bucket,
 	Path string
+	VersionID *string
+}
+
+// ListObjectVersionsOptions is options for API call.
+type ListObjectVersionsOptions struct {
+	Bucket,
+	Path string
 }
 
 // ListObjectOptions is options for API call.
@@ -52,7 +60,7 @@ type DeleteObjectOptions struct {
 }
 
 // NewAPI inits new API.
-func NewAPI() (APIInterface, error) {
+func NewAPI() (Interface, error) {
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return nil, err
@@ -67,16 +75,20 @@ func NewAPI() (APIInterface, error) {
 }
 
 // GetObject gets object from S3.
-func (a API) GetObject(options *GetObjectOptions) (io.ReadCloser, error) {
-	resp, err := a.Client.GetObject(context.TODO(), &s3.GetObjectInput{
-		Bucket: aws.String(options.Bucket),
-		Key:    aws.String(options.Path),
+func (a API) GetObject(options *GetObjectOptions) (*s3.GetObjectOutput, error) {
+	return a.Client.GetObject(context.TODO(), &s3.GetObjectInput{
+		Bucket:    aws.String(options.Bucket),
+		Key:       aws.String(options.Path),
+		VersionId: options.VersionID,
 	})
-	if err != nil {
-		return nil, err
-	}
+}
 
-	return resp.Body, nil
+// ListObjectVersions gets object versions from S3.
+func (a API) ListObjectVersions(options *ListObjectVersionsOptions) (*s3.ListObjectVersionsOutput, error) {
+	return a.Client.ListObjectVersions(context.TODO(), &s3.ListObjectVersionsInput{
+		Bucket: aws.String(options.Bucket),
+		Prefix: aws.String(options.Path),
+	})
 }
 
 // ListObjects gets object from S3.
