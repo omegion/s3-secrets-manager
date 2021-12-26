@@ -38,12 +38,6 @@ func Set() *cobra.Command {
 		log.Fatalf("Lethal damage: %s\n\n", err)
 	}
 
-	cmd.Flags().String("bucket", "", "S3 bucket name")
-
-	if err := cmd.MarkFlagRequired("bucket"); err != nil {
-		log.Fatalf("Lethal damage: %s\n\n", err)
-	}
-
 	cmd.Flags().StringToStringVarP(&tags, "tags", "t", nil, "S3 bucket name")
 
 	return cmd
