@@ -9,11 +9,11 @@ Cheapest Secure Secret Management on AWS S3.
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/github/workflow/status/omegion/go-cli-template/Test" alt="Test"></a>
-    <img src="https://coveralls.io/repos/github/omegion/go-cli-template/badge.svg?branch=master" alt="Coverall"></a>
+    <img src="https://img.shields.io/github/workflow/status/omegion/s3sm-template/Test" alt="Test"></a>
+    <img src="https://coveralls.io/repos/github/omegion/s3sm-template/badge.svg?branch=master" alt="Coverall"></a>
     <img src="https://goreportcard.com/badge/github.com/omegion/s3-secret-manager-template" alt="Report"></a>
     <a href="http://pkg.go.dev/github.com/omegion/s3-secret-manager-template"><img src="https://img.shields.io/badge/pkg.go.dev-doc-blue" alt="Doc"></a>
-    <a href="https://github.com/omegion/s3-secret-manager-template/blob/master/LICENSE"><img src="https://img.shields.io/github/license/omegion/go-cli-template" alt="License"></a>
+    <a href="https://github.com/omegion/s3-secret-manager-template/blob/master/LICENSE"><img src="https://img.shields.io/github/license/omegion/s3sm-template" alt="License"></a>
 </p>
 
 ```shell

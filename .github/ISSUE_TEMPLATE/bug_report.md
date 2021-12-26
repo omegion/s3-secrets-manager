@@ -18,7 +18,7 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Environment:**
-* CLI Version (retrieve with `go-cli version`):
+* CLI Version (retrieve with `s3sm version`):
 * Operating System/Architecture:
 
 **Additional context**
