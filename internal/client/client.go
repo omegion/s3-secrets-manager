@@ -15,7 +15,7 @@ type Interface interface {
 
 // Client is an entrypoint to controllers.
 type Client struct {
-	S3API api.APIInterface
+	S3API api.Interface
 }
 
 // NewClient is a factory for Client.

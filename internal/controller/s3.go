@@ -15,7 +15,7 @@ import (
 
 // SecretController is a struct for arithmetic operations.
 type SecretController struct {
-	s3API api.APIInterface
+	s3API api.Interface
 }
 
 // ListOptions is option for list secrets.
@@ -25,7 +25,7 @@ type ListOptions struct {
 }
 
 // NewSecretController is a factory for SecretController.
-func NewSecretController(api api.APIInterface) *SecretController {
+func NewSecretController(api api.Interface) *SecretController {
 	return &SecretController{api}
 }
 

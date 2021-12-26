@@ -6,6 +6,7 @@ import (
 	"io"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	s32 "github.com/aws/aws-sdk-go-v2/service/s3"
@@ -32,7 +33,7 @@ func TestNewController(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	apiMock := mocks.NewMockAPIInterface(ctrl)
+	apiMock := mocks.NewMockInterface(ctrl)
 
 	expectedValueKey := "password"
 	expectedValueValue := "MYSECRET"
@@ -60,9 +61,44 @@ func TestGet(t *testing.T) {
 	assert.Equal(t, expectedSecret.Value, expectedValue)
 }
 
+func TestListVersions(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	apiMock := mocks.NewMockInterface(ctrl)
+
+	expectedVersionID := "VERSION-ID"
+	expectedLastModified := time.Now()
+	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath}
+
+	options := &api.ListObjectVersionsOptions{
+		Bucket: expectedBucket,
+		Path:   expectedPath,
+	}
+
+	output := &s32.ListObjectVersionsOutput{
+		Versions: []types.ObjectVersion{
+			{
+				VersionId:    &expectedVersionID,
+				LastModified: &expectedLastModified,
+			},
+		},
+	}
+
+	apiMock.EXPECT().ListObjectVersions(options).Return(output, nil).Times(1)
+
+	controller := NewSecretController(apiMock)
+	err := controller.ListVersions(&expectedSecret)
+
+	assert.NoError(t, err)
+
+	for k, value := range expectedSecret.Versions {
+		assert.Equal(t, value.ID, *output.Versions[k].VersionId)
+		assert.Equal(t, value.LastModified, output.Versions[k].LastModified)
+	}
+}
+
 func TestList(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	apiMock := mocks.NewMockAPIInterface(ctrl)
+	apiMock := mocks.NewMockInterface(ctrl)
 
 	expectedSecrets := []secret.Secret{
 		{
@@ -99,7 +135,7 @@ func TestList(t *testing.T) {
 
 func TestSet(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	apiMock := mocks.NewMockAPIInterface(ctrl)
+	apiMock := mocks.NewMockInterface(ctrl)
 
 	expectedValueKey := "password"
 	expectedValueValue := "MYSECRET"
@@ -140,7 +176,7 @@ func TestSet(t *testing.T) {
 
 func TestDelete(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	apiMock := mocks.NewMockAPIInterface(ctrl)
+	apiMock := mocks.NewMockInterface(ctrl)
 
 	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath}
 

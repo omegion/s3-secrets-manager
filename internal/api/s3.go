@@ -10,9 +10,9 @@ import (
 )
 
 //nolint:lll // go generate is ugly.
-//go:generate mockgen -destination=mocks/s3_mock.go -package=mocks github.com/omegion/s3-secret-manager/internal/api APIInterface
-// APIInterface is an interface for API.
-type APIInterface interface {
+//go:generate mockgen -destination=mocks/s3_mock.go -package=mocks github.com/omegion/s3-secret-manager/internal/api Interface
+// Interface is an interface for API.
+type Interface interface {
 	GetObject(options *GetObjectOptions) (*s3.GetObjectOutput, error)
 	ListObjectVersions(options *ListObjectVersionsOptions) (*s3.ListObjectVersionsOutput, error)
 	ListObjects(options *ListObjectOptions) (*s3.ListObjectsV2Output, error)
@@ -60,7 +60,7 @@ type DeleteObjectOptions struct {
 }
 
 // NewAPI inits new API.
-func NewAPI() (APIInterface, error) {
+func NewAPI() (Interface, error) {
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return nil, err

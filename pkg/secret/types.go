@@ -30,6 +30,7 @@ type Secrets struct {
 	Items []*Secret
 }
 
+// Version is Secret version struct.
 type Version struct {
 	ID           string
 	LastModified *time.Time

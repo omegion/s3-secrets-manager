@@ -37,7 +37,7 @@ func (m *MockInterface) EXPECT() *MockInterfaceMockRecorder {
 }
 
 // DeleteSecret mocks base method.
-func (m *MockInterface) DeleteSecret(arg0 api.APIInterface, arg1 *secret.Secret) error {
+func (m *MockInterface) DeleteSecret(arg0 api.Interface, arg1 *secret.Secret) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteSecret", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -51,10 +51,10 @@ func (mr *MockInterfaceMockRecorder) DeleteSecret(arg0, arg1 interface{}) *gomoc
 }
 
 // GetS3API mocks base method.
-func (m *MockInterface) GetS3API() (api.APIInterface, error) {
+func (m *MockInterface) GetS3API() (api.Interface, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetS3API")
-	ret0, _ := ret[0].(api.APIInterface)
+	ret0, _ := ret[0].(api.Interface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -66,7 +66,7 @@ func (mr *MockInterfaceMockRecorder) GetS3API() *gomock.Call {
 }
 
 // GetSecret mocks base method.
-func (m *MockInterface) GetSecret(arg0 api.APIInterface, arg1 *secret.Secret) error {
+func (m *MockInterface) GetSecret(arg0 api.Interface, arg1 *secret.Secret) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSecret", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -80,7 +80,7 @@ func (mr *MockInterfaceMockRecorder) GetSecret(arg0, arg1 interface{}) *gomock.C
 }
 
 // ListSecret mocks base method.
-func (m *MockInterface) ListSecret(arg0 api.APIInterface, arg1 *controller.ListOptions) (*secret.Secrets, error) {
+func (m *MockInterface) ListSecret(arg0 api.Interface, arg1 *controller.ListOptions) (*secret.Secrets, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListSecret", arg0, arg1)
 	ret0, _ := ret[0].(*secret.Secrets)
@@ -95,7 +95,7 @@ func (mr *MockInterfaceMockRecorder) ListSecret(arg0, arg1 interface{}) *gomock.
 }
 
 // ListVersions mocks base method.
-func (m *MockInterface) ListVersions(arg0 api.APIInterface, arg1 *secret.Secret) error {
+func (m *MockInterface) ListVersions(arg0 api.Interface, arg1 *secret.Secret) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListVersions", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -109,7 +109,7 @@ func (mr *MockInterfaceMockRecorder) ListVersions(arg0, arg1 interface{}) *gomoc
 }
 
 // SetSecret mocks base method.
-func (m *MockInterface) SetSecret(arg0 api.APIInterface, arg1 *secret.Secret) error {
+func (m *MockInterface) SetSecret(arg0 api.Interface, arg1 *secret.Secret) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetSecret", arg0, arg1)
 	ret0, _ := ret[0].(error)
