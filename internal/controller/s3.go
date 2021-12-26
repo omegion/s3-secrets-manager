@@ -9,13 +9,13 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/omegion/s3-secret-manager/internal/s3"
+	"github.com/omegion/s3-secret-manager/internal/api"
 	"github.com/omegion/s3-secret-manager/pkg/secret"
 )
 
 // SecretController is a struct for arithmetic operations.
 type SecretController struct {
-	s3API s3.APIInterface
+	s3API api.APIInterface
 }
 
 // ListOptions is option for list secrets.
@@ -25,25 +25,26 @@ type ListOptions struct {
 }
 
 // NewSecretController is a factory for SecretController.
-func NewSecretController(api s3.APIInterface) *SecretController {
+func NewSecretController(api api.APIInterface) *SecretController {
 	return &SecretController{api}
 }
 
 // Get gets secret in given path from S3.
 func (c SecretController) Get(secret *secret.Secret) error {
-	object, err := c.s3API.GetObject(&s3.GetObjectOptions{
-		Bucket: secret.Bucket,
-		Path:   secret.Path,
+	resp, err := c.s3API.GetObject(&api.GetObjectOptions{
+		Bucket:    secret.Bucket,
+		Path:      secret.Path,
+		VersionID: secret.VersionID,
 	})
 	if err != nil {
 		return err
 	}
 
-	defer object.Close()
+	defer resp.Body.Close()
 
 	existingValue := make(map[string]string)
 
-	objectBodyByte, err := ioutil.ReadAll(object)
+	objectBodyByte, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
@@ -68,9 +69,29 @@ func (c SecretController) Get(secret *secret.Secret) error {
 	return nil
 }
 
+// ListVersions lists secret versions in given path from S3.
+func (c SecretController) ListVersions(scrt *secret.Secret) error {
+	resp, err := c.s3API.ListObjectVersions(&api.ListObjectVersionsOptions{
+		Bucket: scrt.Bucket,
+		Path:   scrt.Path,
+	})
+	if err != nil {
+		return err
+	}
+
+	for _, version := range resp.Versions {
+		scrt.Versions = append(scrt.Versions, &secret.Version{
+			ID:           *version.VersionId,
+			LastModified: version.LastModified,
+		})
+	}
+
+	return nil
+}
+
 // List lists secrets in given path from S3.
 func (c SecretController) List(options *ListOptions) (*secret.Secrets, error) {
-	resp, err := c.s3API.ListObjects(&s3.ListObjectOptions{
+	resp, err := c.s3API.ListObjects(&api.ListObjectOptions{
 		Bucket: options.Bucket,
 		Path:   options.Path,
 	})
@@ -108,7 +129,7 @@ func (c SecretController) Set(secret *secret.Secret) error {
 		return err
 	}
 
-	_, err = c.s3API.PutObject(&s3.PutObjectOptions{
+	_, err = c.s3API.PutObject(&api.PutObjectOptions{
 		Bucket:      secret.Bucket,
 		Path:        secret.Path,
 		Value:       bytes.NewReader(encodedValue),
@@ -123,7 +144,7 @@ func (c SecretController) Set(secret *secret.Secret) error {
 
 // Delete deletes secret from S3 bucket.
 func (c SecretController) Delete(secret *secret.Secret) error {
-	_, err := c.s3API.DeleteObject(&s3.DeleteObjectOptions{
+	_, err := c.s3API.DeleteObject(&api.DeleteObjectOptions{
 		Bucket: secret.Bucket,
 		Path:   secret.Path,
 	})

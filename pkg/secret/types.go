@@ -21,11 +21,18 @@ type Secret struct {
 	LastModified *time.Time
 	Value        map[string]string
 	Tags         map[string]string
+	VersionID    *string
+	Versions     []*Version
 }
 
 // Secrets is collection of Secret.
 type Secrets struct {
 	Items []*Secret
+}
+
+type Version struct {
+	ID           string
+	LastModified *time.Time
 }
 
 // EncodeTags encodes tags for S3 API.
@@ -77,6 +84,21 @@ func (s Secret) Print() error {
 
 	for key, value := range s.Value {
 		fmt.Fprintf(writer, "%s\t%s\n", key, value)
+	}
+
+	writer.Flush()
+
+	return nil
+}
+
+// PrintVersions prints Secret Versions.
+func (s Secret) PrintVersions() error {
+	writer := tabwriter.NewWriter(os.Stdout, 0, 0, writerPadding, ' ', 0)
+	fmt.Fprintf(writer, "Order\tVersion ID\tLast Modified\n")
+	fmt.Fprintf(writer, "----\t----\t----\n")
+
+	for key, scrt := range s.Versions {
+		fmt.Fprintf(writer, "%d\t%s\t%s\n", key+1, scrt.ID, scrt.LastModified)
 	}
 
 	writer.Flush()

@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 
+	mocks2 "github.com/omegion/s3-secret-manager/internal/api/mocks"
 	"github.com/omegion/s3-secret-manager/internal/client/mocks"
-	mocks2 "github.com/omegion/s3-secret-manager/internal/s3/mocks"
 	"github.com/omegion/s3-secret-manager/pkg/secret"
 )
 

@@ -3,7 +3,7 @@ package client
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/omegion/s3-secret-manager/internal/s3"
+	"github.com/omegion/s3-secret-manager/internal/api"
 )
 
 //nolint:lll // go generate is ugly.
@@ -15,7 +15,7 @@ type Interface interface {
 
 // Client is an entrypoint to controllers.
 type Client struct {
-	S3API s3.APIInterface
+	S3API api.APIInterface
 }
 
 // NewClient is a factory for Client.

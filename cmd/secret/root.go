@@ -15,6 +15,7 @@ func Secret() *cobra.Command {
 
 	cmd.AddCommand(
 		Get(),
+		Versions(),
 		List(),
 		Set(),
 		Delete(),

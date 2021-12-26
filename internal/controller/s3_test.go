@@ -13,8 +13,8 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/omegion/s3-secret-manager/internal/s3"
-	"github.com/omegion/s3-secret-manager/internal/s3/mocks"
+	"github.com/omegion/s3-secret-manager/internal/api"
+	"github.com/omegion/s3-secret-manager/internal/api/mocks"
 	"github.com/omegion/s3-secret-manager/pkg/secret"
 )
 
@@ -24,7 +24,7 @@ const (
 )
 
 func TestNewController(t *testing.T) {
-	expectedAPI := s3.API{}
+	expectedAPI := api.API{}
 	ctrl := NewSecretController(expectedAPI)
 
 	assert.Equal(t, expectedAPI, ctrl.s3API)
@@ -32,14 +32,14 @@ func TestNewController(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	api := mocks.NewMockAPIInterface(ctrl)
+	apiMock := mocks.NewMockAPIInterface(ctrl)
 
 	expectedValueKey := "password"
 	expectedValueValue := "MYSECRET"
 	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath}
 	expectedValue := map[string]string{expectedValueKey: expectedValueValue}
 
-	options := &s3.GetObjectOptions{
+	options := &api.GetObjectOptions{
 		Bucket: expectedBucket,
 		Path:   expectedPath,
 	}
@@ -47,9 +47,13 @@ func TestGet(t *testing.T) {
 	stringReader := strings.NewReader(fmt.Sprintf("{\"%s\":\"%s\"}", expectedValueKey, expectedValueValue))
 	stringReadCloser := io.NopCloser(stringReader)
 
-	api.EXPECT().GetObject(options).Return(stringReadCloser, nil).Times(1)
+	output := &s32.GetObjectOutput{
+		Body: stringReadCloser,
+	}
 
-	controller := NewSecretController(api)
+	apiMock.EXPECT().GetObject(options).Return(output, nil).Times(1)
+
+	controller := NewSecretController(apiMock)
 	err := controller.Get(&expectedSecret)
 
 	assert.NoError(t, err)
@@ -58,7 +62,7 @@ func TestGet(t *testing.T) {
 
 func TestList(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	api := mocks.NewMockAPIInterface(ctrl)
+	apiMock := mocks.NewMockAPIInterface(ctrl)
 
 	expectedSecrets := []secret.Secret{
 		{
@@ -67,7 +71,7 @@ func TestList(t *testing.T) {
 		},
 	}
 
-	options := &s3.ListObjectOptions{
+	options := &api.ListObjectOptions{
 		Path: expectedPath,
 	}
 
@@ -79,9 +83,9 @@ func TestList(t *testing.T) {
 		},
 	}
 
-	api.EXPECT().ListObjects(options).Return(output, nil).Times(1)
+	apiMock.EXPECT().ListObjects(options).Return(output, nil).Times(1)
 
-	controller := NewSecretController(api)
+	controller := NewSecretController(apiMock)
 	secrets, err := controller.List(&ListOptions{
 		Path: expectedPath,
 	})
@@ -95,14 +99,14 @@ func TestList(t *testing.T) {
 
 func TestSet(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	api := mocks.NewMockAPIInterface(ctrl)
+	apiMock := mocks.NewMockAPIInterface(ctrl)
 
 	expectedValueKey := "password"
 	expectedValueValue := "MYSECRET"
 	expectedValue := map[string]string{expectedValueKey: expectedValueValue}
 	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath, Value: expectedValue}
 
-	getObjectOptions := &s3.GetObjectOptions{
+	getObjectOptions := &api.GetObjectOptions{
 		Bucket: expectedBucket,
 		Path:   expectedPath,
 	}
@@ -110,7 +114,7 @@ func TestSet(t *testing.T) {
 	encodedValue, err := expectedSecret.EncodedValue()
 	assert.NoError(t, err)
 
-	putObjectOptions := &s3.PutObjectOptions{
+	putObjectOptions := &api.PutObjectOptions{
 		Bucket:      expectedBucket,
 		Path:        expectedPath,
 		Value:       bytes.NewReader(encodedValue),
@@ -120,10 +124,14 @@ func TestSet(t *testing.T) {
 	stringReader := strings.NewReader(fmt.Sprintf("{\"%s\":\"%s\"}", expectedValueKey, expectedValueValue))
 	stringReadCloser := io.NopCloser(stringReader)
 
-	api.EXPECT().GetObject(getObjectOptions).Return(stringReadCloser, nil).Times(1)
-	api.EXPECT().PutObject(putObjectOptions).Return(nil, nil).Times(1)
+	output := &s32.GetObjectOutput{
+		Body: stringReadCloser,
+	}
 
-	controller := NewSecretController(api)
+	apiMock.EXPECT().GetObject(getObjectOptions).Return(output, nil).Times(1)
+	apiMock.EXPECT().PutObject(putObjectOptions).Return(nil, nil).Times(1)
+
+	controller := NewSecretController(apiMock)
 	err = controller.Set(&expectedSecret)
 
 	assert.NoError(t, err)
@@ -132,18 +140,18 @@ func TestSet(t *testing.T) {
 
 func TestDelete(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	api := mocks.NewMockAPIInterface(ctrl)
+	apiMock := mocks.NewMockAPIInterface(ctrl)
 
 	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath}
 
-	options := &s3.DeleteObjectOptions{
+	options := &api.DeleteObjectOptions{
 		Bucket: expectedBucket,
 		Path:   expectedPath,
 	}
 
-	api.EXPECT().DeleteObject(options).Return(nil, nil).Times(1)
+	apiMock.EXPECT().DeleteObject(options).Return(nil, nil).Times(1)
 
-	controller := NewSecretController(api)
+	controller := NewSecretController(apiMock)
 	err := controller.Delete(&expectedSecret)
 
 	assert.NoError(t, err)
