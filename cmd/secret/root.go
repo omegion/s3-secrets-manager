@@ -1,6 +1,7 @@
 package secret
 
 import (
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -8,8 +9,8 @@ import (
 func Secret() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "secret",
-		Short: "Adds two numbers",
-		Long:  "Adds two numbers",
+		Short: "Secret operations.",
+		Long:  "Secret operations in S3.",
 	}
 
 	cmd.AddCommand(
@@ -18,6 +19,12 @@ func Secret() *cobra.Command {
 		Set(),
 		Delete(),
 	)
+
+	cmd.PersistentFlags().String("bucket", "", "S3 bucket name")
+
+	if err := cmd.MarkPersistentFlagRequired("bucket"); err != nil {
+		log.Fatalf("Lethal damage: %s\n\n", err)
+	}
 
 	return cmd
 }
