@@ -22,6 +22,6 @@ RUN make build TARGETOS=$TARGETOS TARGETARCH=$TARGETARCH
 
 FROM ${FROM_IMAGE}
 
-COPY --from=builder /app/dist/go-cli /bin/go-cli
+COPY --from=builder /app/dist/s3sm /bin/s3sm
 
-ENTRYPOINT ["go-cli"]
+ENTRYPOINT ["s3sm"]

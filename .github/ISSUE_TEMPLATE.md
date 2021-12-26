@@ -3,7 +3,7 @@
 -->
 
 **Environment:**
-<!-- The version can be retrieved with `go-cli version`. -->
+<!-- The version can be retrieved with `s3sm version`. -->
 
 * CLI Version:
 * Operating System/Architecture:
