@@ -5,7 +5,6 @@ module.exports = {
     title: 'S3 Secrets Manager',
     description: description,
     dest: "docs",
-
     head: [
         [
             "link",
@@ -46,12 +45,11 @@ module.exports = {
     theme: '@vuepress/theme-default',
     themeConfig: {
         repo: 'https://github.com/omegion/s3-secrets-manager',
-        editLinks: false,
+        editLinks: true,
         docsDir: '',
-        editLinkText: '',
-        lastUpdated: false,
+        lastUpdated: true,
+        contributors: false,
         logo: "/img/logo.svg",
-        author: "omegion",
         navbar: [
             {
                 text: 'Guide',
