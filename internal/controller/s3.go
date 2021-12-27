@@ -9,8 +9,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/omegion/s3-secret-manager/internal/api"
-	"github.com/omegion/s3-secret-manager/pkg/secret"
+	"github.com/omegion/s3-secrets-manager/internal/api"
+	"github.com/omegion/s3-secrets-manager/pkg/secret"
 )
 
 // SecretController is a struct for arithmetic operations.

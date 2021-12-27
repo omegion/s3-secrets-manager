@@ -1,4 +1,4 @@
-module github.com/omegion/s3-secret-manager
+module github.com/omegion/s3-secrets-manager
 
 go 1.17
 

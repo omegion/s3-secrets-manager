@@ -14,9 +14,9 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/omegion/s3-secret-manager/internal/api"
-	"github.com/omegion/s3-secret-manager/internal/api/mocks"
-	"github.com/omegion/s3-secret-manager/pkg/secret"
+	"github.com/omegion/s3-secrets-manager/internal/api"
+	"github.com/omegion/s3-secrets-manager/internal/api/mocks"
+	"github.com/omegion/s3-secrets-manager/pkg/secret"
 )
 
 const (

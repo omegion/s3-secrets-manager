@@ -7,9 +7,9 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 
-	apiMock "github.com/omegion/s3-secret-manager/internal/api/mocks"
-	"github.com/omegion/s3-secret-manager/internal/client/mocks"
-	"github.com/omegion/s3-secret-manager/pkg/secret"
+	apiMock "github.com/omegion/s3-secrets-manager/internal/api/mocks"
+	"github.com/omegion/s3-secrets-manager/internal/client/mocks"
+	"github.com/omegion/s3-secrets-manager/pkg/secret"
 )
 
 const (

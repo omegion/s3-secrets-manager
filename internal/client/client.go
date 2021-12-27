@@ -3,11 +3,11 @@ package client
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/omegion/s3-secret-manager/internal/api"
+	"github.com/omegion/s3-secrets-manager/internal/api"
 )
 
 //nolint:lll // go generate is ugly.
-//go:generate mockgen -destination=mocks/client_mock.go -package=mocks github.com/omegion/s3-secret-manager/internal/client Interface
+//go:generate mockgen -destination=mocks/client_mock.go -package=mocks github.com/omegion/s3-secrets-manager/internal/client Interface
 // Interface is an interface entrypoint for the application.
 type Interface interface {
 	S3Interface
