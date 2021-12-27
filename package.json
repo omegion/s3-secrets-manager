@@ -1,16 +1,17 @@
 {
   "name": "s3-secret-manager",
   "version": "1.0.0",
-  "description": "S3 Secrets Manager",
+  "description": "Cheapest Secrets Manager on AWS S3.",
   "main": "index.js",
   "repository": "git@github.com:omegion/s3-secret-manager.git",
   "author": "Hakan <kurtulus@mail.com>",
   "license": "MIT",
   "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:dev": "vuepress dev src",
+    "docs:build": "vuepress build src"
   },
   "devDependencies": {
+    "@vuepress/plugin-palette": "^2.0.0-beta.29",
     "vuepress": "^2.0.0-beta.31"
   }
 }
