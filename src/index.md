@@ -7,11 +7,11 @@ actions:
   link: /guide/
   type: primary
 features:
-- title: Never lose your SSH keys
-  details: Back up your keys on Bitwarden and 1Password securely.
+- title: Cheapest way to store secrets
+  details: Use AWS S3 t o store your secrets to minimize your cost.
 - title: Easy Usage
-  details: SSH Manager CLI has very easy to use interface.
+  details: S3 Secrets Manager CLI has very easy to use interface.
 - title: Fast, really fast
-  details: SSH Manager written in Go, therefore it's fast!
+  details: SS3 Secrets Manager written in Go, therefore it's fast!
 footer: Made by omegion with ❤️
 ---
