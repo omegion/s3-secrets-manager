@@ -1,5 +1,5 @@
 <h1 align="center">
-Cheapest Secure Secret Management on AWS S3.
+S3 Secrets Manager.
 </h1>
 
 <p align="center">
