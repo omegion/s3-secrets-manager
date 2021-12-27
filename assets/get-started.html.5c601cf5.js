@@ -1,1 +1,0 @@
-const e={key:"v-5ceabafb",path:"/guide/get-started.html",title:"Get Started",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"Prerequisites",slug:"prerequisites",children:[]},{level:2,title:"Install",slug:"install",children:[]}],git:{contributors:[{name:"Hakan",email:"kurtulus@mail.com",commits:1}]},filePathRelative:"guide/get-started.md"};export{e as data};
