@@ -53,7 +53,7 @@ You can use `go` to build S3 Secrets Manager locally with:
 go get -u github.com/omegion/s3-secrets-manager
 ```
 
-This will install `bw-ssh` binary to your `GOPATH`.
+This will install `s3-secrets-manager` binary to your `GOPATH`.
 
 Or, you can use the usual commands to install or upgrade:
 
