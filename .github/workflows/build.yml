@@ -53,7 +53,7 @@ jobs:
           git push origin public
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.0
+        uses: JamesIves/github-pages-deploy-action@4.1.8
         with:
           branch: public
           folder: docs
