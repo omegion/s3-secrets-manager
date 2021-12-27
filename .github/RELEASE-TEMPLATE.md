@@ -9,19 +9,22 @@ go get -u github.com/omegion/s3-secrets-manager
 Or, you can use the usual commands to install or upgrade:
 
 On OS X
-```console
-$ curl -L https://github.com/docker/machine/releases/download/{{.Env.VERSION}}/docker-machine-`uname -s`-`uname -m` >/usr/local/bin/docker-machine && \
-  chmod +x /usr/local/bin/docker-machine
+
+```shell
+$ curl -L https://github.com/omegion/s3-secrets-manager/releases/download/{{.Env.VERSION}}/s3-secrets-manager-darwin-amd64 >/usr/local/bin/s3sm && \
+  chmod +x /usr/local/bin/s3sm
 ```
+
 On Linux
-```console
-$ curl -L https://github.com/docker/machine/releases/download/{{.Env.VERSION}}/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
-    chmod +x /tmp/docker-machine &&
-    sudo cp /tmp/docker-machine /usr/local/bin/docker-machine
+```shell
+$ curl -L https://github.com/omegion/s3-secrets-manager/releases/download/{{.Env.VERSION}}/s3-secrets-manager-linux/amd64 >/usr/local/bin/s3sm && \
+    chmod +x /tmp/s3sm &&
+    sudo cp /tmp/s3sm /usr/local/bin/s3sm
 ```
 
-Otherwise, download one of the releases from the [release page](https://github.com/docker/machine/releases/) directly.
+Otherwise, download one of the releases from the [release page](https://github.com/omegion/s3-secrets-manager/releases/) directly.
 
-See the install [docs](https://docs.docker.com/machine/install-machine/) for more install options and instructions.
+See the install [docs](https://s3-secrets-manager.omegion.dev) for more install options and instructions.
 
 ## Changelog
+
