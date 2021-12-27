@@ -4,8 +4,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/omegion/s3-secret-manager/internal/client"
-	"github.com/omegion/s3-secret-manager/pkg/secret"
+	"github.com/omegion/s3-secrets-manager/internal/client"
+	"github.com/omegion/s3-secrets-manager/pkg/secret"
 )
 
 // Versions lists secret versions from S3.

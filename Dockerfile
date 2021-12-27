@@ -6,7 +6,7 @@ FROM --platform=${BUILDPLATFORM} golang:${GO_VERSION} AS builder
 ARG TARGETOS
 ARG TARGETARCH
 
-LABEL org.opencontainers.image.source="https://github.com/omegion/s3-secret-manager-template"
+LABEL org.opencontainers.image.source="https://github.com/omegion/s3-secrets-manager-template"
 
 WORKDIR /app
 

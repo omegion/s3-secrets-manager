@@ -1,9 +1,9 @@
 package client
 
 import (
-	"github.com/omegion/s3-secret-manager/internal/api"
-	"github.com/omegion/s3-secret-manager/internal/controller"
-	"github.com/omegion/s3-secret-manager/pkg/secret"
+	"github.com/omegion/s3-secrets-manager/internal/api"
+	"github.com/omegion/s3-secrets-manager/internal/controller"
+	"github.com/omegion/s3-secrets-manager/pkg/secret"
 )
 
 // S3Interface is an interface for S3 Client.

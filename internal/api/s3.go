@@ -10,7 +10,7 @@ import (
 )
 
 //nolint:lll // go generate is ugly.
-//go:generate mockgen -destination=mocks/s3_mock.go -package=mocks github.com/omegion/s3-secret-manager/internal/api Interface
+//go:generate mockgen -destination=mocks/s3_mock.go -package=mocks github.com/omegion/s3-secrets-manager/internal/api Interface
 // Interface is an interface for API.
 type Interface interface {
 	GetObject(options *GetObjectOptions) (*s3.GetObjectOutput, error)

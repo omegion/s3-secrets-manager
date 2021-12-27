@@ -6,8 +6,8 @@ import (
 	cmd2 "github.com/omegion/cobra-commander"
 	"github.com/spf13/cobra"
 
-	"github.com/omegion/s3-secret-manager/cmd"
-	"github.com/omegion/s3-secret-manager/cmd/secret"
+	"github.com/omegion/s3-secrets-manager/cmd"
+	"github.com/omegion/s3-secrets-manager/cmd/secret"
 )
 
 const (

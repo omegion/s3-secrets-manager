@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/omegion/s3-secret-manager/internal/info"
+	"github.com/omegion/s3-secrets-manager/internal/info"
 )
 
 // Version prints version/build.
