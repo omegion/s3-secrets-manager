@@ -1,13 +1,11 @@
 ---
 home: true
 heroImage: img/logo.svg
-tagline: SSH Key Manager Documentation
+tagline: S3 Secrets Manager
 actions:
 - text: Quick Start →
   link: /guide/
   type: primary
-actionText: Quick Start →
-actionLink: /guide/
 features:
 - title: Never lose your SSH keys
   details: Back up your keys on Bitwarden and 1Password securely.

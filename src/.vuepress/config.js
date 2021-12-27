@@ -1,10 +1,10 @@
 const {description} = require('../../package.json')
 
 module.exports = {
-    // site config
     lang: 'en-US',
     title: 'S3 Secrets Manager',
     description: description,
+    dest: "docs",
 
     head: [
         [
