@@ -10,12 +10,12 @@ Or, you can use the usual commands to install or upgrade:
 
 On OS X
 ```console
-$ curl -L https://github.com/docker/machine/releases/download/{{VERSION}}/docker-machine-`uname -s`-`uname -m` >/usr/local/bin/docker-machine && \
+$ curl -L https://github.com/docker/machine/releases/download/{{.Env.VERSION}}/docker-machine-`uname -s`-`uname -m` >/usr/local/bin/docker-machine && \
   chmod +x /usr/local/bin/docker-machine
 ```
 On Linux
 ```console
-$ curl -L https://github.com/docker/machine/releases/download/{{VERSION}}/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
+$ curl -L https://github.com/docker/machine/releases/download/{{.Env.VERSION}}/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
     chmod +x /tmp/docker-machine &&
     sudo cp /tmp/docker-machine /usr/local/bin/docker-machine
 ```
@@ -25,3 +25,5 @@ Otherwise, download one of the releases from the [release page](https://github.c
 See the install [docs](https://docs.docker.com/machine/install-machine/) for more install options and instructions.
 
 ## Changelog
+
+{{.Env.CHANGELOG}}
