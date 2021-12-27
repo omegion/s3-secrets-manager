@@ -89,8 +89,9 @@ jobs:
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
-#          name: Release ${{ steps.get_version.outputs.VERSION }}
+          name: Release ${{ steps.get_version.outputs.VERSION }}
           body_path: ".github/RELEASE-TEMPLATE.md"
+          draft: true
           files: ${{env.BINARY_NAME}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
