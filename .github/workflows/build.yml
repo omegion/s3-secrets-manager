@@ -92,7 +92,7 @@ jobs:
           curl -o /usr/local/bin/gomplate -sSL https://github.com/hairyhenderson/gomplate/releases/download/v3.10.0/gomplate_linux-amd64
           chmod 755 /usr/local/bin/gomplate
           
-          ls
+          export VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
           
           gomplate --file .github/RELEASE-TEMPLATE.md --out .github/RELEASE-NOTES.md
       - name: Release with Notes
