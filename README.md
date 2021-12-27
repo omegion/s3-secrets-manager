@@ -4,7 +4,7 @@ Cheapest Secure Secret Management on AWS S3.
 
 <p align="center">
   <a href="https://omegion.dev" target="_blank">
-    <img width="180" src="https://cdn.logo.com/hotlink-ok/logo-social-sq.png" alt="logo">
+    <img width="180" src="https://s3-secrets-manager.omegion.dev/img/logo.svg" alt="logo">
   </a>
 </p>
 
