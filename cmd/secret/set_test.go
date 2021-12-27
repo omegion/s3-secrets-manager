@@ -31,7 +31,7 @@ func TestSet(t *testing.T) {
 	clientMock.EXPECT().SetSecret(api, expectedSecret).Return(nil).Times(1)
 
 	cmd := &cobra.Command{}
-	cmd.Flags().String("name", expectedSecretName, "")
+	cmd.Flags().String("field", expectedSecretName, "")
 	cmd.Flags().String("value", expectedSecretValue, "")
 	cmd.Flags().String("bucket", expectedBucket, "")
 	cmd.Flags().String("path", expectedPath, "")

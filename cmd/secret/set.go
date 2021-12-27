@@ -20,9 +20,9 @@ func Set() *cobra.Command {
 		RunE:  client.With(setSecretE),
 	}
 
-	cmd.Flags().String("name", "", "Name of the secret")
+	cmd.Flags().String("field", "", "Field of the secret")
 
-	if err := cmd.MarkFlagRequired("name"); err != nil {
+	if err := cmd.MarkFlagRequired("field"); err != nil {
 		log.Fatalf("Lethal damage: %s\n\n", err)
 	}
 
@@ -44,7 +44,7 @@ func Set() *cobra.Command {
 }
 
 func setSecretE(client client.Interface, cmd *cobra.Command, args []string) error {
-	name, _ := cmd.Flags().GetString("name")
+	field, _ := cmd.Flags().GetString("field")
 	value, _ := cmd.Flags().GetString("value")
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
@@ -52,7 +52,7 @@ func setSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	scrt := &secret.Secret{
 		Bucket: bucket,
 		Path:   path,
-		Value:  map[string]string{name: value},
+		Value:  map[string]string{field: value},
 		Tags:   tags,
 	}
 

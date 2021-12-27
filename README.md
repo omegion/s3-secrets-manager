@@ -4,7 +4,7 @@ Cheapest Secure Secret Management on AWS S3.
 
 <p align="center">
   <a href="https://omegion.dev" target="_blank">
-    <img width="180" src="https://cdn.logo.com/hotlink-ok/logo-social-sq.png" alt="logo">
+    <img width="180" src="https://s3-secrets-manager.omegion.dev/img/logo.svg" alt="logo">
   </a>
 </p>
 
@@ -45,10 +45,37 @@ Use "s3sm [command] --help" for more information about a command.
 
 S3 Secrets Management CLI tool allows you to manage your secrets on S3 in cheaper way.
 
-## How to use it
+## Installation
 
-* Set up your AWS account and bucket where your secrets will live.
-* Use `s3sm` tool to set/get your secret.
+You can use `go` to build S3 Secrets Manager locally with:
+
+```shell
+go get -u github.com/omegion/s3-secrets-manager
+```
+
+This will install `s3-secrets-manager` binary to your `GOPATH`.
+
+Or, you can use the usual commands to install or upgrade:
+
+On OS X
+
+```shell
+VERSION=v0.3.0
+$ curl -L https://github.com/omegion/s3-secrets-manager/releases/download/$VERSION/s3-secrets-manager-darwin-amd64 >/usr/local/bin/s3sm && \
+  chmod +x /usr/local/bin/s3sm
+```
+
+On Linux
+
+```shell
+VERSION=v0.3.0
+$ curl -L https://github.com/omegion/s3-secrets-manager/releases/download/$VERSION/s3-secrets-manager-linux/amd64 >/usr/local/bin/s3sm && \
+    chmod +x /tmp/s3sm &&
+    sudo cp /tmp/s3sm /usr/local/bin/s3sm
+```
+
+Otherwise, download one of the releases from the [release page](https://github.com/omegion/s3-secrets-manager/releases/)
+directly.
 
 ## Improvements to be made
 
