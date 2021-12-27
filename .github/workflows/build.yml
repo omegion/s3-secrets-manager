@@ -84,15 +84,15 @@ jobs:
 #        run: |
 #          go build -o "$BINARY_NAME" -v
       - name: Release Notes
-        run:
+        run: |
           VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges >> .github/RELEASE-TEMPLATE.md
           
-          curl -o gomplate -sSL https://github.com/hairyhenderson/gomplate/releases/download/v3.10.0/gomplate_linux-amd64-slim
-          chmod 755 ./gomplate
+          curl -o /usr/local/bin/gomplate -sSL https://github.com/hairyhenderson/gomplate/releases/download/v3.10.0/gomplate_linux-amd64-slim
+          chmod 755 /usr/local/bin/gomplate
           
-          ./gomplate --file .github/RELEASE-TEMPLATE.md --out .github/RELEASE-NOTES.md
+          gomplate --file .github/RELEASE-TEMPLATE.md --out .github/RELEASE-NOTES.md
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
