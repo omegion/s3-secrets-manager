@@ -77,18 +77,20 @@ jobs:
           GOOS=${GOOSARCH%/*}
           GOARCH=${GOOSARCH#*/}
           BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH
-          VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
-          CHANGELOG=$(git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges)
           echo "BINARY_NAME=$BINARY_NAME" >> $GITHUB_ENV
           echo "GOOS=$GOOS" >> $GITHUB_ENV
           echo "GOARCH=$GOARCH" >> $GITHUB_ENV
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "CHANGELOG=$CHANGELOG" >> $GITHUB_ENV
+
       - name: Build
         run: |
           go build -o "$BINARY_NAME" -v
       - name: Release Notes
         run:
+          VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          
+          git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges >> .github/RELEASE-TEMPLATE.md
+
           go get github.com/hairyhenderson/gomplate/v3/cmd/gomplate
           gomplate --file .github/RELEASE-TEMPLATE.md --out .github/RELEASE-NOTES.md
       - name: Release with Notes

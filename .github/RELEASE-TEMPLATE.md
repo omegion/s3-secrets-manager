@@ -25,5 +25,3 @@ Otherwise, download one of the releases from the [release page](https://github.c
 See the install [docs](https://docs.docker.com/machine/install-machine/) for more install options and instructions.
 
 ## Changelog
-
-{{.Env.CHANGELOG}}
