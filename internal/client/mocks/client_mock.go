@@ -50,6 +50,20 @@ func (mr *MockInterfaceMockRecorder) DeleteSecret(arg0, arg1 interface{}) *gomoc
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteSecret", reflect.TypeOf((*MockInterface)(nil).DeleteSecret), arg0, arg1)
 }
 
+// DeleteSecretVersion mocks base method.
+func (m *MockInterface) DeleteSecretVersion(arg0 api.Interface, arg1 *secret.Secret) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteSecretVersion", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteSecretVersion indicates an expected call of DeleteSecretVersion.
+func (mr *MockInterfaceMockRecorder) DeleteSecretVersion(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteSecretVersion", reflect.TypeOf((*MockInterface)(nil).DeleteSecretVersion), arg0, arg1)
+}
+
 // GetS3API mocks base method.
 func (m *MockInterface) GetS3API() (api.Interface, error) {
 	m.ctrl.T.Helper()

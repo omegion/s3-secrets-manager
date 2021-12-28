@@ -178,6 +178,34 @@ func TestDelete(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	apiMock := mocks.NewMockInterface(ctrl)
 
+	expectedVersionID := "VERSION-ID"
+	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath, VersionID: &expectedVersionID}
+
+	options := &api.DeleteObjectsOptions{
+		Bucket:  expectedBucket,
+		Objects: expectedSecret.GetVersionObjects(),
+	}
+
+	listObjectVersionsOptions := &api.ListObjectVersionsOptions{
+		Bucket: expectedBucket,
+		Path:   expectedPath,
+	}
+
+	output := &s32.ListObjectVersionsOutput{}
+
+	apiMock.EXPECT().ListObjectVersions(listObjectVersionsOptions).Return(output, nil).Times(1)
+	apiMock.EXPECT().DeleteObjects(options).Return(nil, nil).Times(1)
+
+	controller := NewSecretController(apiMock)
+	err := controller.Delete(&expectedSecret)
+
+	assert.NoError(t, err)
+}
+
+func TestDeleteVersion(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	apiMock := mocks.NewMockInterface(ctrl)
+
 	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath}
 
 	options := &api.DeleteObjectOptions{
@@ -188,7 +216,7 @@ func TestDelete(t *testing.T) {
 	apiMock.EXPECT().DeleteObject(options).Return(nil, nil).Times(1)
 
 	controller := NewSecretController(apiMock)
-	err := controller.Delete(&expectedSecret)
+	err := controller.DeleteVersion(&expectedSecret)
 
 	assert.NoError(t, err)
 }

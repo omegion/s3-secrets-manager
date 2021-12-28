@@ -142,11 +142,30 @@ func (c SecretController) Set(secret *secret.Secret) error {
 	return nil
 }
 
+// DeleteVersion deletes secret from S3 bucket.
+func (c SecretController) DeleteVersion(secret *secret.Secret) error {
+	_, err := c.s3API.DeleteObject(&api.DeleteObjectOptions{
+		Bucket:    secret.Bucket,
+		Path:      secret.Path,
+		VersionID: secret.VersionID,
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Delete deletes secret from S3 bucket.
 func (c SecretController) Delete(secret *secret.Secret) error {
-	_, err := c.s3API.DeleteObject(&api.DeleteObjectOptions{
-		Bucket: secret.Bucket,
-		Path:   secret.Path,
+	err := c.ListVersions(secret)
+	if err != nil {
+		return err
+	}
+
+	_, err = c.s3API.DeleteObjects(&api.DeleteObjectsOptions{
+		Bucket:  secret.Bucket,
+		Objects: secret.GetVersionObjects(),
 	})
 	if err != nil {
 		return err

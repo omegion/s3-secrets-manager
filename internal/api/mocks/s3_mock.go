@@ -50,6 +50,21 @@ func (mr *MockInterfaceMockRecorder) DeleteObject(arg0 interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteObject", reflect.TypeOf((*MockInterface)(nil).DeleteObject), arg0)
 }
 
+// DeleteObjects mocks base method.
+func (m *MockInterface) DeleteObjects(arg0 *api.DeleteObjectsOptions) (*s3.DeleteObjectsOutput, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteObjects", arg0)
+	ret0, _ := ret[0].(*s3.DeleteObjectsOutput)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteObjects indicates an expected call of DeleteObjects.
+func (mr *MockInterfaceMockRecorder) DeleteObjects(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteObjects", reflect.TypeOf((*MockInterface)(nil).DeleteObjects), arg0)
+}
+
 // GetObject mocks base method.
 func (m *MockInterface) GetObject(arg0 *api.GetObjectOptions) (*s3.GetObjectOutput, error) {
 	m.ctrl.T.Helper()

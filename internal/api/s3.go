@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 )
 
 //nolint:lll // go generate is ugly.
@@ -18,6 +19,7 @@ type Interface interface {
 	ListObjects(options *ListObjectOptions) (*s3.ListObjectsV2Output, error)
 	PutObject(options *PutObjectOptions) (*s3.PutObjectOutput, error)
 	DeleteObject(options *DeleteObjectOptions) (*s3.DeleteObjectOutput, error)
+	DeleteObjects(options *DeleteObjectsOptions) (*s3.DeleteObjectsOutput, error)
 }
 
 // API is main struct of S3.
@@ -57,6 +59,13 @@ type ListObjectOptions struct {
 type DeleteObjectOptions struct {
 	Bucket,
 	Path string
+	VersionID *string
+}
+
+// DeleteObjectsOptions is options for API call.
+type DeleteObjectsOptions struct {
+	Bucket  string
+	Objects []types.ObjectIdentifier
 }
 
 // NewAPI inits new API.
@@ -117,7 +126,16 @@ func (a API) PutObject(options *PutObjectOptions) (*s3.PutObjectOutput, error) {
 // DeleteObject deletes object from S3.
 func (a API) DeleteObject(options *DeleteObjectOptions) (*s3.DeleteObjectOutput, error) {
 	return a.Client.DeleteObject(context.TODO(), &s3.DeleteObjectInput{
+		Bucket:    aws.String(options.Bucket),
+		Key:       aws.String(options.Path),
+		VersionId: options.VersionID,
+	})
+}
+
+// DeleteObjects deletes object from S3.
+func (a API) DeleteObjects(options *DeleteObjectsOptions) (*s3.DeleteObjectsOutput, error) {
+	return a.Client.DeleteObjects(context.TODO(), &s3.DeleteObjectsInput{
 		Bucket: aws.String(options.Bucket),
-		Key:    aws.String(options.Path),
+		Delete: &types.Delete{Objects: options.Objects},
 	})
 }

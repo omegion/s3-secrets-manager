@@ -7,6 +7,8 @@ import (
 	"os"
 	"text/tabwriter"
 	"time"
+
+	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 )
 
 const (
@@ -75,6 +77,20 @@ func (s Secret) GetValue(key string) (string, error) {
 		Key:    key,
 		Secret: &s,
 	}
+}
+
+// GetVersionObjects prints Secrets details.
+func (s Secret) GetVersionObjects() []types.ObjectIdentifier {
+	objects := make([]types.ObjectIdentifier, 0)
+
+	for _, version := range s.Versions {
+		objects = append(objects, types.ObjectIdentifier{
+			VersionId: &version.ID,
+			Key:       &s.Path,
+		})
+	}
+
+	return objects
 }
 
 // Print prints Secret details.

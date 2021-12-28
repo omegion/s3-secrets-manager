@@ -13,6 +13,7 @@ type S3Interface interface {
 	ListVersions(api api.Interface, secret *secret.Secret) error
 	ListSecret(api api.Interface, options *controller.ListOptions) (*secret.Secrets, error)
 	SetSecret(api api.Interface, secret *secret.Secret) error
+	DeleteSecretVersion(api api.Interface, secret *secret.Secret) error
 	DeleteSecret(api api.Interface, secret *secret.Secret) error
 }
 
@@ -39,6 +40,11 @@ func (c Client) ListSecret(api api.Interface, options *controller.ListOptions) (
 // SetSecret adds secret.
 func (c Client) SetSecret(api api.Interface, secret *secret.Secret) error {
 	return controller.NewSecretController(api).Set(secret)
+}
+
+// DeleteSecretVersion deletes secret.
+func (c Client) DeleteSecretVersion(api api.Interface, secret *secret.Secret) error {
+	return controller.NewSecretController(api).DeleteVersion(secret)
 }
 
 // DeleteSecret deletes secret.
