@@ -13,8 +13,8 @@ import (
 func Delete() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete",
-		Short: "DeleteVersion secret.",
-		Long:  "DeleteVersion secret from S3 with path.",
+		Short: "Delete secret.",
+		Long:  "Delete secret from S3 with path.",
 		RunE:  client.With(deleteSecretE),
 	}
 
