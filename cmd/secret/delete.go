@@ -13,11 +13,12 @@ import (
 func Delete() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete",
-		Short: "Delete secret.",
-		Long:  "Delete secret from S3 with path.",
+		Short: "DeleteVersion secret.",
+		Long:  "DeleteVersion secret from S3 with path.",
 		RunE:  client.With(deleteSecretE),
 	}
 
+	cmd.Flags().String("version", "", "Version ID to get specific version of the secret")
 	cmd.Flags().String("path", "", "Path of the secret")
 
 	if err := cmd.MarkFlagRequired("path"); err != nil {
@@ -30,11 +31,16 @@ func Delete() *cobra.Command {
 func deleteSecretE(client client.Interface, cmd *cobra.Command, args []string) error {
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
+	version, _ := cmd.Flags().GetString("version")
 	interactive, _ := cmd.Flags().GetBool("interactive")
 
 	scrt := &secret.Secret{
 		Bucket: bucket,
 		Path:   path,
+	}
+
+	if version != "" {
+		scrt.VersionID = &version
 	}
 
 	api, err := client.GetS3API()
@@ -50,9 +56,16 @@ func deleteSecretE(client client.Interface, cmd *cobra.Command, args []string) e
 		}
 	}
 
-	err = client.DeleteSecret(api, scrt)
-	if err != nil {
-		return err
+	if scrt.VersionID != nil {
+		err = client.DeleteSecretVersion(api, scrt)
+		if err != nil {
+			return err
+		}
+	} else {
+		err = client.DeleteSecret(api, scrt)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
