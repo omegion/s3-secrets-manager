@@ -24,3 +24,8 @@ dist
 node_modules
 docs
 src
+
+# Terraform
+terraform.*
+.terraform
+.terraform.*
