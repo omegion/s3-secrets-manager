@@ -11,12 +11,13 @@ LDFLAGS            = -ldflags "-X $(BASE_PACKAGE_NAME)/internal/info.Version=$(G
 BUFFER            := $(shell mktemp)
 REPORT_DIR         = dist/report
 COVER_PROFILE      = $(REPORT_DIR)/coverage.out
-TARGETOS		   = "darwin"
-TARGETARCH		   = "amd64"
+TARGETOS		   = darwin
+TARGETARCH		   = amd64
+BINARY_NAME        = s3sm
 
 .PHONY: build
 build:
-	CGO_ENABLED=0 GOOS=$(TARGETOS) GOARCH=$(TARGETARCH) go build $(LDFLAGS) -a -installsuffix cgo -o dist/s3sm main.go
+	CGO_ENABLED=0 GOOS="$(TARGETOS)" GOARCH="$(TARGETARCH)" go build $(LDFLAGS) -a -installsuffix cgo -o dist/$(BINARY_NAME)-$(TARGETOS)-$(TARGETARCH) main.go
 
 .PHONY: lint
 lint:

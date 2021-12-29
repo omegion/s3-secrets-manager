@@ -77,18 +77,15 @@ jobs:
           GOOSARCH=${{matrix.goosarch}}
           GOOS=${GOOSARCH%/*}
           GOARCH=${GOOSARCH#*/}
-          BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH
+          BINARY_NAME=s3sm-$GOOS-$GOARCH
           VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
-          BASE_PACKAGE_NAME=github.com/omegion/s3-secrets-manager
-          LDFLAGS=$(echo -ldflags "-X ${BASE_PACKAGE_NAME}/internal/info.Version=${VERSION}")
-
           echo "BINARY_NAME=$BINARY_NAME" >> $GITHUB_ENV
           echo "GOOS=$GOOS" >> $GITHUB_ENV
           echo "GOARCH=$GOARCH" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Build
         run: |
-          make build
+          make build TARGETOS="$GOOS" TARGETARCH="$GOARCH" VERSION="$VERSION" BINARY_NAME="$BINARY_NAME"
       - name: Release Notes
         run: |
           export VERSION=${{env.VERSION}}
