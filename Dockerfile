@@ -5,6 +5,7 @@ FROM --platform=${BUILDPLATFORM} golang:${GO_VERSION} AS builder
 
 ARG TARGETOS
 ARG TARGETARCH
+ARG VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/omegion/s3-secrets-manager-template"
 
@@ -18,7 +19,7 @@ RUN apk update && \
   rm -rf /var/cache/apk/* && \
   rm -rf /var/tmp/*
 
-RUN make build TARGETOS=$TARGETOS TARGETARCH=$TARGETARCH
+RUN make build TARGETOS=$TARGETOS TARGETARCH=$TARGETARCH VERSION=$VERSION
 
 FROM ${FROM_IMAGE}
 
