@@ -88,7 +88,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Build
         run: |
-          go build "$LDFLAGS" -o "$BINARY_NAME" -v
+          go build "$LDFLAGS" -a -installsuffix cgo -o "$BINARY_NAME" main.go
       - name: Release Notes
         run: |
           export VERSION=${{env.VERSION}}
