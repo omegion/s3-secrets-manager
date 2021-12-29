@@ -13,11 +13,11 @@ REPORT_DIR         = dist/report
 COVER_PROFILE      = $(REPORT_DIR)/coverage.out
 TARGETOS		   = darwin
 TARGETARCH		   = amd64
-BINARY_NAME        = s3sm
+BINARY_NAME        = dist/s3sm
 
 .PHONY: build
 build:
-	CGO_ENABLED=0 GOOS="$(TARGETOS)" GOARCH="$(TARGETARCH)" go build $(LDFLAGS) -a -installsuffix cgo -o dist/$(BINARY_NAME) main.go
+	CGO_ENABLED=0 GOOS="$(TARGETOS)" GOARCH="$(TARGETARCH)" go build $(LDFLAGS) -a -installsuffix cgo -o $(BINARY_NAME) main.go
 
 .PHONY: lint
 lint:
