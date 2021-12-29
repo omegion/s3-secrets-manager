@@ -17,7 +17,7 @@ BINARY_NAME        = s3sm
 
 .PHONY: build
 build:
-	CGO_ENABLED=0 GOOS="$(TARGETOS)" GOARCH="$(TARGETARCH)" go build $(LDFLAGS) -a -installsuffix cgo -o dist/$(BINARY_NAME)-$(TARGETOS)-$(TARGETARCH) main.go
+	CGO_ENABLED=0 GOOS="$(TARGETOS)" GOARCH="$(TARGETARCH)" go build $(LDFLAGS) -a -installsuffix cgo -o dist/$(BINARY_NAME) main.go
 
 .PHONY: lint
 lint:
