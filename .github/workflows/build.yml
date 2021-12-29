@@ -57,9 +57,9 @@ jobs:
         # List of GOOS and GOARCH pairs from `go tool dist list`
         goosarch:
           - 'darwin/amd64'
-          - 'darwin/arm64'
-          - 'linux/amd64'
-          - 'linux/arm64'
+    #          - 'darwin/arm64'
+    #          - 'linux/amd64'
+    #          - 'linux/arm64'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -88,6 +88,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Build
         run: |
+          ls -la
           go build "$LDFLAGS" -a -installsuffix cgo -o "$BINARY_NAME" main.go
       - name: Release Notes
         run: |
