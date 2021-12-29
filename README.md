@@ -61,7 +61,7 @@ On OS X
 
 ```shell
 VERSION=v0.3.0
-curl -L https://github.com/omegion/s3-secrets-manager/releases/download/$VERSION/s3-secrets-manager-darwin-amd64 >/usr/local/bin/s3sm && \
+curl -L https://github.com/omegion/s3-secrets-manager/releases/download/$VERSION/s3sm-darwin-amd64 >/usr/local/bin/s3sm && \
   chmod +x /usr/local/bin/s3sm
 ```
 
@@ -69,9 +69,9 @@ On Linux
 
 ```shell
 VERSION=v0.3.0
-curl -L https://github.com/omegion/s3-secrets-manager/releases/download/$VERSION/s3-secrets-manager-linux/amd64 >/usr/local/bin/s3sm && \
-    chmod +x /tmp/s3sm &&
-    sudo cp /tmp/s3sm /usr/local/bin/s3sm
+curl -L https://github.com/omegion/s3-secrets-manager/releases/download/$VERSION/s3sm-linux/amd64 >/usr/local/bin/s3sm && \
+  chmod +x /tmp/s3sm &&
+  sudo cp /tmp/s3sm /usr/local/bin/s3sm
 ```
 
 Otherwise, download one of the releases from the [release page](https://github.com/omegion/s3-secrets-manager/releases/)
