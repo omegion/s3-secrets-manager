@@ -77,23 +77,25 @@ jobs:
           GOOSARCH=${{matrix.goosarch}}
           GOOS=${GOOSARCH%/*}
           GOARCH=${GOOSARCH#*/}
-          BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH
+          BINARY_NAME=s3sm-$GOOS-$GOARCH
+          VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
           echo "BINARY_NAME=$BINARY_NAME" >> $GITHUB_ENV
           echo "GOOS=$GOOS" >> $GITHUB_ENV
           echo "GOARCH=$GOARCH" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Build
         run: |
-          go build -o "$BINARY_NAME" -v
+          make build TARGETOS="$GOOS" TARGETARCH="$GOARCH" VERSION="$VERSION" BINARY_NAME="$BINARY_NAME"
       - name: Release Notes
         run: |
-          export VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
+          export VERSION=${{env.VERSION}}
 
-          git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges >> .github/RELEASE-TEMPLATE.md
+          git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges >> .github/RELEASE_TEMPLATE.md
           
           curl -o /usr/local/bin/gomplate -sSL https://github.com/hairyhenderson/gomplate/releases/download/v3.10.0/gomplate_linux-amd64
           chmod 755 /usr/local/bin/gomplate
           
-          gomplate --file .github/RELEASE-TEMPLATE.md --out .github/RELEASE-NOTES.md
+          gomplate --file .github/RELEASE_TEMPLATE.md --out .github/RELEASE-NOTES.md
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
