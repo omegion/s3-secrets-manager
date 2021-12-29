@@ -19,7 +19,7 @@ On Linux
 
 ```shell
 $ curl -L https://github.com/omegion/s3-secrets-manager/releases/download/{{.Env.VERSION}}/s3sm-linux-amd64 >/usr/local/bin/s3sm && \
-    chmod +x /tmp/s3sm &&
+    chmod +x /tmp/s3sm && \
     sudo cp /tmp/s3sm /usr/local/bin/s3sm
 ```
 
