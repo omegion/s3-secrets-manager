@@ -22,7 +22,8 @@ dist
 
 # Node.js
 node_modules
-src
+.cache
+.temp
 
 # Terraform
 terraform.*

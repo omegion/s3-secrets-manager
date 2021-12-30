@@ -1,0 +1,7 @@
+# JetBrains
+.idea
+
+node_modules
+.temp
+.cache
+docs
