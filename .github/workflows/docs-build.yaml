@@ -25,7 +25,7 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ steps.secrets.outputs.GITHUB_REGISTRY_TOKEN }}
           TARGET_REPO: ${{ github.repository }}
-          TARGET_BRANCH: gh-pages
+          TARGET_BRANCH: public
           BUILD_SCRIPT: cd docs && yarn && yarn build
           BUILD_DIR: docs/
           CNAME: https://s3-secrets-manager.omegion.dev
