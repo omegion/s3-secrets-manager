@@ -3,13 +3,13 @@ package secret
 import (
 	"errors"
 	"fmt"
-	"github.com/omegion/s3-secrets-manager/pkg/types"
 
 	types2 "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
 	"github.com/omegion/s3-secrets-manager/internal/client"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 // Get gets secret from S3.

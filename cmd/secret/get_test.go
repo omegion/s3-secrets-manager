@@ -9,6 +9,7 @@ import (
 
 	mocks2 "github.com/omegion/s3-secrets-manager/internal/api/mocks"
 	"github.com/omegion/s3-secrets-manager/internal/client/mocks"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 func TestGet(t *testing.T) {
@@ -16,7 +17,7 @@ func TestGet(t *testing.T) {
 	clientMock := mocks.NewMockInterface(ctrl)
 	api := mocks2.NewMockInterface(ctrl)
 
-	expectedSecret := &secret.Secret{
+	expectedSecret := &types.Secret{
 		Bucket: expectedBucket,
 		Path:   expectedPath,
 	}

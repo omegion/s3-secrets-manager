@@ -9,6 +9,7 @@ import (
 
 	mocks2 "github.com/omegion/s3-secrets-manager/internal/api/mocks"
 	"github.com/omegion/s3-secrets-manager/internal/client/mocks"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 func TestSet(t *testing.T) {
@@ -20,7 +21,7 @@ func TestSet(t *testing.T) {
 	expectedSecretValue := "TESTSECRET"
 	expectedBucket := "test-bucket"
 	expectedPath := "test/foo/boo"
-	expectedSecret := &secret.Secret{
+	expectedSecret := &types.Secret{
 		Bucket: expectedBucket,
 		Path:   expectedPath,
 		Value:  map[string]string{"test": "TESTSECRET"},

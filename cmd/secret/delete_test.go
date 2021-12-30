@@ -9,6 +9,7 @@ import (
 
 	apiMock "github.com/omegion/s3-secrets-manager/internal/api/mocks"
 	"github.com/omegion/s3-secrets-manager/internal/client/mocks"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 const (
@@ -21,7 +22,7 @@ func TestDelete(t *testing.T) {
 	clientMock := mocks.NewMockInterface(ctrl)
 	api := apiMock.NewMockInterface(ctrl)
 
-	expectedSecret := &secret.Secret{
+	expectedSecret := &types.Secret{
 		Bucket: expectedBucket,
 		Path:   expectedPath,
 	}

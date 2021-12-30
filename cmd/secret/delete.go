@@ -1,12 +1,12 @@
 package secret
 
 import (
-	"github.com/omegion/s3-secrets-manager/pkg/types"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
 	"github.com/omegion/s3-secrets-manager/internal/client"
 	"github.com/omegion/s3-secrets-manager/internal/prompt"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 // Delete deletes the secret from S3.

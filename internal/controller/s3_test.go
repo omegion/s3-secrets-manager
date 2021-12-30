@@ -3,7 +3,6 @@ package controller
 import (
 	"bytes"
 	"fmt"
-	types2 "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"io"
 	"strings"
 	"testing"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	s32 "github.com/aws/aws-sdk-go-v2/service/s3"
+	types2 "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
