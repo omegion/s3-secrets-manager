@@ -1,0 +1,31 @@
+name: Build and Deploy
+on:
+  push:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Import Secrets
+        id: secrets
+        uses: hashicorp/vault-action@v2.4.0
+        with:
+          url: ${{ secrets.VAULT_ADDR }}
+          method: github
+          githubToken: ${{ secrets.GT_VAULT_AUTH_TOKEN }}
+          secrets: |
+            github/data/token registry_write | GITHUB_REGISTRY_TOKEN ;
+
+
+      - name: vuepress-deploy
+        uses: jenkey2011/vuepress-deploy@master
+        env:
+          ACCESS_TOKEN: ${{ steps.secrets.outputs.GITHUB_REGISTRY_TOKEN }}
+          TARGET_REPO: ${{ github.repository_owner }}/${{ github.repository }}
+          TARGET_BRANCH: master
+          BUILD_SCRIPT: yarn && yarn build
+          BUILD_DIR: docs/src/.vuepress/dist
+          CNAME: https://s3-secrets-manager.omegion.dev
