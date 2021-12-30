@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/omegion/s3-secrets-manager/internal/client"
-	"github.com/omegion/s3-secrets-manager/pkg/secret"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 //nolint:gochecknoglobals // it's okay to use global here.
@@ -49,7 +49,7 @@ func setSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
 
-	scrt := &secret.Secret{
+	scrt := &types.Secret{
 		Bucket: bucket,
 		Path:   path,
 		Value:  map[string]string{field: value},

@@ -9,7 +9,6 @@ import (
 
 	apiMock "github.com/omegion/s3-secrets-manager/internal/api/mocks"
 	"github.com/omegion/s3-secrets-manager/internal/client/mocks"
-	"github.com/omegion/s3-secrets-manager/pkg/secret"
 )
 
 const (

@@ -55,3 +55,7 @@ release: build
 docker-image:
 	@echo "Building Docker Image"
 	docker buildx build -t s3sm-template --platform linux/amd64,linux/arm64 . --output=type=docker
+
+docs-serve:
+	@echo "Serving Docs"
+	docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material

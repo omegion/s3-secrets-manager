@@ -1,0 +1,21 @@
+site_name: Argo CD Vault Plugin
+repo_url: https://github.com/omegion/s3-secrets-manager
+
+theme:
+  name: material
+  custom_dir: docs/_overrides
+  palette:
+    primary: black
+  favicon: assets/favicon.ico
+  font:
+    text: Work Sans
+  logo: assets/logo.svg
+
+extra_javascript:
+  - assets/versions.js
+extra_css:
+  - assets/versions.css
+
+nav:
+  - Overview: index.md
+  - Releases ⧉: https://github.com/omegion/s3-secrets-manager/releases

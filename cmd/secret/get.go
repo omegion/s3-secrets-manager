@@ -3,13 +3,13 @@ package secret
 import (
 	"errors"
 	"fmt"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 
-	"github.com/aws/aws-sdk-go-v2/service/s3/types"
+	types2 "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
 	"github.com/omegion/s3-secrets-manager/internal/client"
-	"github.com/omegion/s3-secrets-manager/pkg/secret"
 )
 
 // Get gets secret from S3.
@@ -38,7 +38,7 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	bucket, _ := cmd.Flags().GetString("bucket")
 	versionID, _ := cmd.Flags().GetString("version-id")
 
-	scrt := &secret.Secret{
+	scrt := &types.Secret{
 		Bucket: bucket,
 		Path:   path,
 	}
@@ -54,9 +54,9 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 
 	err = client.GetSecret(api, scrt)
 	if err != nil {
-		var nsk *types.NoSuchKey
+		var nsk *types2.NoSuchKey
 		if errors.As(err, &nsk) {
-			return secret.FieldNotFoundError{
+			return types.FieldNotFoundError{
 				Field:  field,
 				Secret: scrt,
 			}
