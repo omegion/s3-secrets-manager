@@ -1,0 +1,1 @@
+const e={key:"v-5ceabafb",path:"/guide/get-started.html",title:"Get Started",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"Prerequisites",slug:"prerequisites",children:[]},{level:2,title:"Installation",slug:"installation",children:[]}],git:{updatedTime:1641033188e3},filePathRelative:"guide/get-started.md"};export{e as data};
