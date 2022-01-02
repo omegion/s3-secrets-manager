@@ -19,6 +19,7 @@ func Secret() *cobra.Command {
 		List(),
 		Set(),
 		Delete(),
+		Inject(),
 	)
 
 	cmd.PersistentFlags().String("bucket", "", "S3 bucket name")

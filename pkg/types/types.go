@@ -1,4 +1,4 @@
-package secret
+package types
 
 import (
 	"encoding/json"

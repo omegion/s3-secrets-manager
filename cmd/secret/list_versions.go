@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/omegion/s3-secrets-manager/internal/client"
-	"github.com/omegion/s3-secrets-manager/pkg/secret"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 // Versions lists secret versions from S3.
@@ -30,7 +30,7 @@ func listVersionsE(client client.Interface, cmd *cobra.Command, args []string) e
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
 
-	scrt := &secret.Secret{
+	scrt := &types.Secret{
 		Bucket: bucket,
 		Path:   path,
 	}

@@ -6,7 +6,7 @@ import (
 
 	"github.com/omegion/s3-secrets-manager/internal/client"
 	"github.com/omegion/s3-secrets-manager/internal/prompt"
-	"github.com/omegion/s3-secrets-manager/pkg/secret"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 // Delete deletes the secret from S3.
@@ -34,7 +34,7 @@ func deleteSecretE(client client.Interface, cmd *cobra.Command, args []string) e
 	version, _ := cmd.Flags().GetString("version")
 	interactive, _ := cmd.Flags().GetBool("interactive")
 
-	scrt := &secret.Secret{
+	scrt := &types.Secret{
 		Bucket: bucket,
 		Path:   path,
 	}

@@ -10,13 +10,13 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	s32 "github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/aws/aws-sdk-go-v2/service/s3/types"
+	types2 "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/omegion/s3-secrets-manager/internal/api"
 	"github.com/omegion/s3-secrets-manager/internal/api/mocks"
-	"github.com/omegion/s3-secrets-manager/pkg/secret"
+	"github.com/omegion/s3-secrets-manager/pkg/types"
 )
 
 const (
@@ -37,7 +37,7 @@ func TestGet(t *testing.T) {
 
 	expectedValueKey := "password"
 	expectedValueValue := "MYSECRET"
-	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath}
+	expectedSecret := types.Secret{Bucket: expectedBucket, Path: expectedPath}
 	expectedValue := map[string]string{expectedValueKey: expectedValueValue}
 
 	options := &api.GetObjectOptions{
@@ -67,7 +67,7 @@ func TestListVersions(t *testing.T) {
 
 	expectedVersionID := "VERSION-ID"
 	expectedLastModified := time.Now()
-	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath}
+	expectedSecret := types.Secret{Bucket: expectedBucket, Path: expectedPath}
 
 	options := &api.ListObjectVersionsOptions{
 		Bucket: expectedBucket,
@@ -75,7 +75,7 @@ func TestListVersions(t *testing.T) {
 	}
 
 	output := &s32.ListObjectVersionsOutput{
-		Versions: []types.ObjectVersion{
+		Versions: []types2.ObjectVersion{
 			{
 				VersionId:    &expectedVersionID,
 				LastModified: &expectedLastModified,
@@ -100,7 +100,7 @@ func TestList(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	apiMock := mocks.NewMockInterface(ctrl)
 
-	expectedSecrets := []secret.Secret{
+	expectedSecrets := []types.Secret{
 		{
 			Bucket: expectedBucket,
 			Path:   expectedPath,
@@ -112,7 +112,7 @@ func TestList(t *testing.T) {
 	}
 
 	output := &s32.ListObjectsV2Output{
-		Contents: []types.Object{
+		Contents: []types2.Object{
 			{
 				Key: aws.String(expectedPath),
 			},
@@ -140,7 +140,7 @@ func TestSet(t *testing.T) {
 	expectedValueKey := "password"
 	expectedValueValue := "MYSECRET"
 	expectedValue := map[string]string{expectedValueKey: expectedValueValue}
-	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath, Value: expectedValue}
+	expectedSecret := types.Secret{Bucket: expectedBucket, Path: expectedPath, Value: expectedValue}
 
 	getObjectOptions := &api.GetObjectOptions{
 		Bucket: expectedBucket,
@@ -179,7 +179,7 @@ func TestDelete(t *testing.T) {
 	apiMock := mocks.NewMockInterface(ctrl)
 
 	expectedVersionID := "VERSION-ID"
-	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath, VersionID: &expectedVersionID}
+	expectedSecret := types.Secret{Bucket: expectedBucket, Path: expectedPath, VersionID: &expectedVersionID}
 
 	options := &api.DeleteObjectsOptions{
 		Bucket:  expectedBucket,
@@ -206,7 +206,7 @@ func TestDeleteVersion(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	apiMock := mocks.NewMockInterface(ctrl)
 
-	expectedSecret := secret.Secret{Bucket: expectedBucket, Path: expectedPath}
+	expectedSecret := types.Secret{Bucket: expectedBucket, Path: expectedPath}
 
 	options := &api.DeleteObjectOptions{
 		Bucket: expectedBucket,
