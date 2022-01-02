@@ -73,7 +73,20 @@ module.exports = {
     plugins: [
         [
             '@vuepress/plugin-palette',
-            { preset: 'sass' },
+            {
+                preset: 'sass'
+            },
+        ],
+        [
+            '@vuepress/plugin-search',
+            {
+                locales: {
+                    '/': {
+                        placeholder: 'Search',
+                    },
+                },
+                getExtraFields: (page) => page.frontmatter.tags ?? [],
+            },
         ],
     ],
 }

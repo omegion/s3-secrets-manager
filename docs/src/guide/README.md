@@ -1,8 +1,16 @@
+---
+tags:
+- how
+- use
+---
+
 # Introduction
 
-AWS S3 is widely used storage system secured very well. S3 Secrets Manager uses S3 to store your secrets in a structured way that you can access anywhere any time.
+AWS S3 is widely used storage system secured very well. S3 Secrets Manager uses S3 to store your secrets in a structured
+way that you can access anywhere any time.
 
-You can set your S3 bucket to store your objects with KSM key to add extra security. In addition, you can create IAM role to limit the tools operations.
+You can set your S3 bucket to store your objects with KSM key to add extra security. In addition, you can create IAM
+role to limit the tools operations.
 
 ```shell
 S3 Secrets Management for AWS S3.
