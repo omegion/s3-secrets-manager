@@ -2,7 +2,6 @@ package secret
 
 import (
 	"errors"
-	"fmt"
 
 	types2 "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	log "github.com/sirupsen/logrus"
@@ -37,6 +36,7 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
 	versionID, _ := cmd.Flags().GetString("version-id")
+	output, _ := cmd.Flags().GetString("output")
 
 	scrt := &types.Secret{
 		Bucket: bucket,
@@ -46,6 +46,8 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	if versionID != "" {
 		scrt.VersionID = &versionID
 	}
+
+	var err error
 
 	api, err := client.GetS3API()
 	if err != nil {
@@ -73,13 +75,25 @@ func getSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 			return err
 		}
 
-		//nolint:forbidigo // fmt is okay.
-		fmt.Println(val)
-	} else {
-		err = scrt.Print()
+		cmd.Println(val)
+
+		return nil
+	}
+
+	if output == JSONOutput {
+		out, err := scrt.EncodeToJSON()
 		if err != nil {
 			return err
 		}
+
+		cmd.Println(out)
+
+		return nil
+	}
+
+	err = scrt.Print()
+	if err != nil {
+		return err
 	}
 
 	return nil

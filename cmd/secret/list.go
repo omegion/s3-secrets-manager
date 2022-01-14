@@ -29,6 +29,7 @@ func List() *cobra.Command {
 func listSecretE(client client.Interface, cmd *cobra.Command, args []string) error {
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
+	output, _ := cmd.Flags().GetString("output")
 
 	options := &controller.ListOptions{
 		Bucket: bucket,
@@ -43,6 +44,17 @@ func listSecretE(client client.Interface, cmd *cobra.Command, args []string) err
 	secrets, err := client.ListSecret(api, options)
 	if err != nil {
 		return err
+	}
+
+	if output == JSONOutput {
+		out, err := secrets.EncodeToJSON()
+		if err != nil {
+			return err
+		}
+
+		cmd.Println(out)
+
+		return nil
 	}
 
 	err = secrets.Print()

@@ -108,6 +108,16 @@ func (s Secret) Print() error {
 	return nil
 }
 
+// EncodeToJSON encodes Secret to JSON.
+func (s Secret) EncodeToJSON() (string, error) {
+	out, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "", err
+	}
+
+	return string(out), nil
+}
+
 // PrintVersions prints Secret Versions.
 func (s Secret) PrintVersions() error {
 	writer := tabwriter.NewWriter(os.Stdout, 0, 0, writerPadding, ' ', 0)
@@ -136,4 +146,14 @@ func (s Secrets) Print() error {
 	writer.Flush()
 
 	return nil
+}
+
+// EncodeToJSON encodes Secrets to JSON.
+func (s Secrets) EncodeToJSON() (string, error) {
+	out, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "", err
+	}
+
+	return string(out), nil
 }
