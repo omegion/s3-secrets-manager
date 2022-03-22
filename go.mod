@@ -11,8 +11,8 @@ require (
 	github.com/omegion/cobra-commander v0.10.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.3.0
-	github.com/stretchr/testify v1.7.0
-	k8s.io/apimachinery v0.23.4
+	github.com/stretchr/testify v1.7.1
+	k8s.io/apimachinery v0.23.5
 	sigs.k8s.io/yaml v1.3.0
 )
 
