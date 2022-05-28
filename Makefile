@@ -25,11 +25,16 @@ lint:
 	gofmt -l . | tee $(BUFFER)
 	@! test -s $(BUFFER)
 	go vet ./...
-	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.43.0
+
+	# golangci-lint
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
 	@golangci-lint --version
 	golangci-lint run
-	go get -u golang.org/x/lint/golint
-	golint -set_exit_status ./...
+
+	# Statuscheck
+	go install honnef.co/go/tools/cmd/staticcheck@2022.1
+	staticcheck ./...
+
 
 .PHONY: test
 test:
@@ -43,15 +48,3 @@ cut-tag:
 	@echo "Cutting $(version)"
 	git tag $(version)
 	git push origin $(version)
-
-.PHONY: release
-release: build
-	@echo "Releasing $(GIT_VERSION)"
-	docker build -t s3sm .
-	docker tag s3sm:latest omegion/s3sm:$(GIT_VERSION)
-	docker push omegion/s3sm:$(GIT_VERSION)
-
-.PHONY: docker-image
-docker-image:
-	@echo "Building Docker Image"
-	docker buildx build -t s3sm-template --platform linux/amd64,linux/arm64 . --output=type=docker
