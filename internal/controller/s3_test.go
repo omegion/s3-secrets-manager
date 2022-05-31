@@ -179,11 +179,10 @@ func TestDelete(t *testing.T) {
 	apiMock := mocks.NewMockInterface(ctrl)
 
 	expectedVersionID := "VERSION-ID"
-	expectedSecret := types.Secret{Bucket: expectedBucket, Path: expectedPath, VersionID: &expectedVersionID}
-
-	options := &api.DeleteObjectsOptions{
-		Bucket:  expectedBucket,
-		Objects: expectedSecret.GetVersionObjects(),
+	expectedSecret := types.Secret{
+		Bucket:    expectedBucket,
+		Path:      expectedPath,
+		VersionID: &expectedVersionID,
 	}
 
 	listObjectVersionsOptions := &api.ListObjectVersionsOptions{
@@ -191,7 +190,19 @@ func TestDelete(t *testing.T) {
 		Path:   expectedPath,
 	}
 
-	output := &s32.ListObjectVersionsOutput{}
+	output := &s32.ListObjectVersionsOutput{
+		Versions: []types2.ObjectVersion{
+			{
+				VersionId: &expectedVersionID,
+				Key:       aws.String(expectedPath),
+			},
+		},
+	}
+
+	options := &api.DeleteObjectsOptions{
+		Bucket:  expectedSecret.Bucket,
+		Objects: expectedSecret.GetVersionObjects(),
+	}
 
 	apiMock.EXPECT().ListObjectVersions(listObjectVersionsOptions).Return(output, nil).Times(1)
 	apiMock.EXPECT().DeleteObjects(options).Return(nil, nil).Times(1)

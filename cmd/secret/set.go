@@ -48,6 +48,7 @@ func setSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	value, _ := cmd.Flags().GetString("value")
 	path, _ := cmd.Flags().GetString("path")
 	bucket, _ := cmd.Flags().GetString("bucket")
+	output, _ := cmd.Flags().GetString("output")
 
 	scrt := &types.Secret{
 		Bucket: bucket,
@@ -64,6 +65,17 @@ func setSecretE(client client.Interface, cmd *cobra.Command, args []string) erro
 	err = client.SetSecret(api, scrt)
 	if err != nil {
 		return err
+	}
+
+	if output == JSONOutput {
+		out, err := scrt.EncodeToJSON()
+		if err != nil {
+			return err
+		}
+
+		cmd.Println(out)
+
+		return nil
 	}
 
 	err = scrt.Print()

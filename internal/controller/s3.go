@@ -31,6 +31,8 @@ func NewSecretController(api api.Interface) *SecretController {
 
 // Get gets secret in given path from S3.
 func (c SecretController) Get(secret *types.Secret) error {
+	log.Debugf("Getting S3 object from bucket %s", secret.Bucket)
+
 	resp, err := c.s3API.GetObject(&api.GetObjectOptions{
 		Bucket:    secret.Bucket,
 		Path:      secret.Path,
@@ -39,6 +41,8 @@ func (c SecretController) Get(secret *types.Secret) error {
 	if err != nil {
 		return err
 	}
+
+	log.Debugf("Received S3 object from bucket %s", secret.Bucket)
 
 	defer resp.Body.Close()
 
@@ -71,6 +75,8 @@ func (c SecretController) Get(secret *types.Secret) error {
 
 // ListVersions lists secret versions in given path from S3.
 func (c SecretController) ListVersions(scrt *types.Secret) error {
+	log.Debugf("Getting S3 object versions from bucket %s", scrt.Bucket)
+
 	resp, err := c.s3API.ListObjectVersions(&api.ListObjectVersionsOptions{
 		Bucket: scrt.Bucket,
 		Path:   scrt.Path,
@@ -78,6 +84,8 @@ func (c SecretController) ListVersions(scrt *types.Secret) error {
 	if err != nil {
 		return err
 	}
+
+	log.Debugf("Received S3 object versions from bucket %s", scrt.Bucket)
 
 	for _, version := range resp.Versions {
 		scrt.Versions = append(scrt.Versions, &types.Version{
@@ -91,6 +99,8 @@ func (c SecretController) ListVersions(scrt *types.Secret) error {
 
 // List lists secrets in given path from S3.
 func (c SecretController) List(options *ListOptions) (*types.Secrets, error) {
+	log.Debugf("Getting S3 objects from bucket %s", options.Bucket)
+
 	resp, err := c.s3API.ListObjects(&api.ListObjectOptions{
 		Bucket: options.Bucket,
 		Path:   options.Path,
@@ -98,6 +108,8 @@ func (c SecretController) List(options *ListOptions) (*types.Secrets, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	log.Debugf("Received S3 %d object(s) from bucket %s", len(resp.Contents), options.Bucket)
 
 	secrets := &types.Secrets{}
 
@@ -129,6 +141,8 @@ func (c SecretController) Set(secret *types.Secret) error {
 		return err
 	}
 
+	log.Debugf("Putting S3 object to bucket %s with path %s", secret.Bucket, secret.Path)
+
 	_, err = c.s3API.PutObject(&api.PutObjectOptions{
 		Bucket:      secret.Bucket,
 		Path:        secret.Path,
@@ -144,6 +158,8 @@ func (c SecretController) Set(secret *types.Secret) error {
 
 // DeleteVersion deletes secret from S3 bucket.
 func (c SecretController) DeleteVersion(secret *types.Secret) error {
+	log.Debugf("Deleting S3 object from bucket %s with path %s", secret.Bucket, secret.Path)
+
 	_, err := c.s3API.DeleteObject(&api.DeleteObjectOptions{
 		Bucket:    secret.Bucket,
 		Path:      secret.Path,
@@ -152,6 +168,8 @@ func (c SecretController) DeleteVersion(secret *types.Secret) error {
 	if err != nil {
 		return err
 	}
+
+	log.Debugf("S3 object deleted from bucket %s with path %s", secret.Bucket, secret.Path)
 
 	return nil
 }
@@ -163,6 +181,12 @@ func (c SecretController) Delete(secret *types.Secret) error {
 		return err
 	}
 
+	log.Debugf("Deleting S3 %d version(s) from bucket %s with path %s", len(secret.Versions), secret.Bucket, secret.Path)
+
+	if len(secret.Versions) == 0 {
+		return NoObjectVersionsFoundError{Bucket: secret.Bucket, Path: secret.Path}
+	}
+
 	_, err = c.s3API.DeleteObjects(&api.DeleteObjectsOptions{
 		Bucket:  secret.Bucket,
 		Objects: secret.GetVersionObjects(),
@@ -170,6 +194,8 @@ func (c SecretController) Delete(secret *types.Secret) error {
 	if err != nil {
 		return err
 	}
+
+	log.Debugf("S3 %d version(s) deleted from bucket %s with path %s", len(secret.Versions), secret.Bucket, secret.Path)
 
 	return nil
 }
